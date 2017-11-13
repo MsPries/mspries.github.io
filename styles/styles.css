@@ -1,0 +1,112 @@
+body {
+	background-color: #D0DDDB;
+	color: #403D39;
+	text-align: center;
+	font-family: 'Roboto Slab', sans-serif;
+	margin: 0px;
+}
+a {
+	color: #BAD1CD;
+}
+a:hover{
+	color: #DEE0E5;	
+}
+
+#home {
+	width: 20px;
+	fill: #BAD1CD !important;
+	position: absolute;
+}
+
+#top {
+	padding: 160px 60px;
+	background-color: #1C1649;
+	color: #BAD1CD;
+	border-bottom: 2px solid #DEE0E5;
+}
+
+.projects {
+	clear: both;
+	padding: 0px;
+	margin: 10px;
+	/*border-style: solid;
+	border-radius: 1px;*/
+}
+
+.col {
+	display: block;
+	float:left;
+	margin: 1% 0 1% 1.6%;
+}
+/*.col:first-child { margin-left: 0; }*/
+
+.group:before,
+.group:after { content:""; display:table; }
+.group:after { clear:both;}
+.group { zoom:1; /* For IE 6/7 */ }
+
+.span3 {
+	width: 100%;
+}
+.span2 {
+	width: 65.13%;
+}
+.span1 {
+	width: 31.26%;
+}
+
+/*  GO FULL WIDTH BELOW 480 PIXELS */
+@media only screen and (max-width: 680px) {
+	.col {  margin: 1% 0 1% 0%; }
+	.span1, .span2, .span3 { width: 100%; }
+	#top { padding: 40px 60px; }
+}
+
+img {
+	width: 96%;
+	height: auto;
+	padding: 2%;
+}
+
+#title{
+	font-size: 2.9em;
+	display: block;
+	width: 100%;
+}
+#intro {
+	margin: 3% 8%;
+	font-size: 1.3em;
+}
+
+.project:hover{
+	background-color: #DEE0E5;
+}
+.project{
+	transition: background-color 0.4s ease;
+	background-color: #CACCD1;
+	/*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
+	color: #0D1F2D;
+}
+
+.project-title{
+	margin-top: 5px;
+	margin-bottom: 2px;
+}
+
+.project-description{
+	padding: 4px;
+}
+
+.description-section {
+	display: block;
+	text-align: left;
+	margin: 20px 30px;
+	clear: both;
+}
+
+.section-title {
+	font-size: 1.5em;
+}
+.section-detail {
+
+}

@@ -88,13 +88,23 @@
 
 	<div class="description-section">
 		<div class="section-title">Results</div>
-		<img class="project-img" style="float: right; width: 400px" src="https://jaromiru.files.wordpress.com/2016/10/mountaincar-v0.png?w=700">
+		<p>
+			With his fully deterministic model, the result was an average score of -132.57. I then experimented with changing the alphas, beginning with making the alpha fully stochastic. In doing so, the program did not solve the environment, yielding a score of -200. In further preliminary testing, I realized that from an alpha of 0-0.625, with the random alphas I chose, the environment was solved only once. Beyond 0.625, the solution was solved, in 2 cases above .9, faster than a fully deterministic model. Thus, to experiment with alpha-gamma pairs. I set alpha to start through the loop starting at 0.8 and let gamma start at 0 and go up to 1 by increments of 0.1. The result was below. On an X-Y scale 2-D dimension, it appears to be logarithmic, and the values of score increase as the alpha-gamma value increases. This stopped before the alpha could reach 0.9 due to issues with running. However, from preliminary testing, the best alpha-gamma value was reached above 0.9, and 1, respectively.
+
+		</p>
+		<br>
+		<br>
+		<br>
+		<img class="project-img" style="float: right; width: 600px" src="./img/Screen Shot 2018-01-26 at 3.40.21 PM.png">
+		<img class="project-img" style="float: right; width: 600px" src="./img/Screen Shot 2018-01-26 at 3.40.34 PM.png">
+		<img class="project-img" style="float: right; width: 600px" src="./img/Screen Shot 2018-01-26 at 3.40.45 PM.png">
+
+
 		<div class="section-detail">
 			
 
 		</div>
-		<img class="project-img" style="float: right; width: 400px" src="mspries.github.io/Screen Shot 2018-01-26 at 2.52.21 PM.png">
-		<div class="section-detail">
+		
 			
 
 		</div>

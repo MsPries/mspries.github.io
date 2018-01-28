@@ -24,18 +24,18 @@
 	<div class="description-section">
 		<div class="section-title">Environment Overview</div>
 		<div class="section-detail">
-			<img style = "float: right; width: 300px" src="pendulum.gif">
+			<img style = "float: right; width: 300px" src="img/jimmy-pendulum/pendulum.gif">
 			<br>
 			The goal of the pendulum-v0 problem is to swing a frictionless pendulum upright so it stays vertical, pointed upwards. The pendulum starts in a random position every time, and, since pendulum-v0 is an unsolved environment, it does not have a specified reward threshold at which it is considered solved nor at which the episode will terminate.
 			<br>
 
 			<p>There are three observation inputs for this environment, representing the angle of the pendulum (0 and 1) and its angular velocity (2).</p>
-			<img style = "float: center; width: 300px" src="inputs.png">
+			<img style = "float: center; width: 300px" src="img/jimmy-pendulum/inputs.png">
 			<br>
 
 			<p>The action is a value between -2.0 and 2.0, representing the amount of left or right force on the pendulum.</p>
 
-			<img style = "float: center; width: 300px" src="action.png">
+			<img style = "float: center; width: 300px" src="img/jimmy-pendulum/action.png">
 			<br>
 
 			<br>
@@ -51,7 +51,7 @@
 
 	<div class="description-section">
 		<div class="section-title">Cross-Entropy</div>
-		<img class="project-img" style="float: right; width: 400px" src="ce.png">
+		<img class="project-img" style="float: right; width: 400px" src="img/jimmy-pendulum/ce.png">
 		<div class="section-detail">
 			The agent learns by acting in the environment. Tasks in Reinforcement Learning are often modeled as Markov Decision Processes in which optimal actions over the state space S have to be found to optimize the total return over the process. At timestep t the agent is in state s and takes an action a &#949; A(s), where A(s) is the set of possible actions in s. It then transitions to state s<sub>t+1</sub> and receives a reward r<sub> t+1</sub> &#949; &#8476;. <sup><a href="#fn1" id="ref1">1</a></sup>
 			<br>
@@ -60,14 +60,14 @@
 			This process is outlined here:
 			<br>
 
-			<img style = "float: center; width: 500px" src="code1.png">
+			<img style = "float: center; width: 500px" src="img/jimmy-pendulum/code1.png">
 			<br>
 
 			<br>
 			<p>
 			Based on this interaction the agent must learn the optimal policy &#960;<sup>*</sup>: S --> A to optimize the total return for a continuous task. <sup><a href="#fn2" id="ref2">2</a></sup>
 			</p>
-			<img style = "float: center; width: 200px" src="equation1.png">
+			<img style = "float: center; width: 200px" src="img/jimmy-pendulum/equation1.png">
 			<br>
 
 			<br>
@@ -79,10 +79,10 @@
 			<br>
 
 			<br>
-			<img style = "float: center; width: 250px" src="equation2.png">
+			<img style = "float: center; width: 250px" src="img/jimmy-pendulum/equation2.png">
 			<br>
 
-			<p>Therefore, the agent can learn the optimal policy &#960;<sup>*</sup> by learning the optimal state-value function: <img style = "float: center; width: 200px" src="equation3.png">. <sup><a href="#fn4" id="ref4">4</a></sup></p>
+			<p>Therefore, the agent can learn the optimal policy &#960;<sup>*</sup> by learning the optimal state-value function: <img style = "float: center; width: 200px" src="img/jimmy-pendulum/equation3.png">. <sup><a href="#fn4" id="ref4">4</a></sup></p>
 
 			<br>
 			The task for the Cross Entropy method is to optimize the weights of this state-value function V(s), which determines the action of the agent, for each state using a linear value function with weights w and features &#934; defining the value of a state for n features.
@@ -96,14 +96,14 @@
 			The random sample is generated here:
 			<br>
 
-			<img style = "float: center; width: 500px" src="code2.png">
+			<img style = "float: center; width: 500px" src="img/jimmy-pendulum/code2.png">
 			<br>
 
 			<br>
 			Weights are updated here to produce a better sample in the next iteration:
 			<br>
 
-			<img style = "float: center; width: 500px" src="code3.png">
+			<img style = "float: center; width: 500px" src="img/jimmy-pendulum/code3.png">
 			<br>
 
 
@@ -118,7 +118,7 @@
 	</div>
 	<div class="description-section">
 		<div class="section-title">Deep Deterministic Policy Gradient -- An Actor-Critic, Off-Policy, Model-Free Algorithm:</div>
-		<img class="project-img" style="float: right; width: 300px" src="ddpg.png">
+		<img class="project-img" style="float: right; width: 300px" src="img/jimmy-pendulum/ddpg.png">
 		<div class="section-detail">
 			Policy-Gradient (PG) algorithms optimize a policy end-to-end by computing noisy estimates of the gradient of the expected reward of the policy and then updating the policy in the gradient direction. <sup><a href="#fn6" id="ref6">6</a></sup>
 			<br>
@@ -135,28 +135,28 @@
 			The input of the actor network is the current state, and the output is a value representing an action chosen from a continuous action space. The deterministic policy gradient theorem provides the update rule for the weights of the actor network. <sup><a href="#fn8" id="ref8">8</a></sup>
 			<br>
 
-			<img style = "float: center; width: 500px" src="code4.png">
+			<img style = "float: center; width: 500px" src="img/jimmy-pendulum/code4.png">
 			<br>
 
 			<br>
 			The critic&#8217;s input is the current state and the action given by the actor, and its output is the estimated Q-value. The critic network is updated from the gradients obtained from the TD error signal. The output of the critic drives learning in both the actor and the critic. <sup><a href="#fn9" id="ref9">9</a></sup>
 			<br>
 
-			<img style = "float: center; width: 500px" src="code5.png">
+			<img style = "float: center; width: 500px" src="img/jimmy-pendulum/code5.png">
 			<br>
 
 			<br>
 			In general, training and evaluating the policy and/or value function with thousands of temporally-correlated simulated trajectories leads to the introduction of enormous amounts of variance in the critic&#8217;s approximation of the Q-function. The TD error signal is excellent at compounding the variance introduced by your bad predictions over time. Therefore, a replay buffer is used to store the experiences of the agent during training, and then randomly sample experiences to use for learning in order to break up the temporal correlations within different training episodes. This technique is known as experience replay: <sup><a href="#fn10" id="ref10">10</a></sup>
 			<br>
 
-			<img style = "float: center; width: 500px" src="code6.png">
+			<img style = "float: center; width: 500px" src="img/jimmy-pendulum/code6.png">
 			<br>
 
 			<br>
 			The last critical component is the implementation of target networks. &quot;Directly updating your actor and critic neural network weights with the gradients obtained from the TD error signal that was computed from both your replay buffer and the output of the actor and critic networks causes your learning algorithm to diverge (or to not learn at all).&quot; <sup><a href="#fn11" id="ref11">11</a></sup> Therefore using a set of target networks to generate targets for TD error computation, constraining the targets to train slowly, regularizes the learning algorithm and increases stability. <sup><a href="#fn12" id="ref12">12</a></sup>
 			<br>
 
-			<img style = "float: center; width: 500px" src="code7.png">
+			<img style = "float: center; width: 500px" src="img/jimmy-pendulum/code7.png">
 			<br>
 
 			<br>
@@ -176,7 +176,7 @@
 	<div class="description-section">
 		<div class="section-title">Performance Comparison</div>
 		<div class="section-detail">
-			<img style = "float: center; width: 400px" src="fig1.png">
+			<img style = "float: center; width: 400px" src="img/jimmy-pendulum/fig1.png">
 			<br>
 
 			<br>
@@ -242,7 +242,7 @@
         </script>
         <br>
 
-        	<img style = "float: center; width: 400px" src="fig2.png">
+        	<img style = "float: center; width: 400px" src="img/jimmy-pendulum/fig2.png">
 			<br>
 <br>
 <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-0.12.13.min.js"></script>

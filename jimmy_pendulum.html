@@ -1,0 +1,328 @@
+<html>
+<head>
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+	<link rel="stylesheet" href="styles/styles.css">
+	<title>Programming 4 - C.E. vs D.D.P.G. Methods for Pendulum-v0 Environment</title>
+</head>
+
+<body>
+	<!-- Home button -->
+	<a href="index.html"><img id="home" src="img/home.png" alt="Go back to the homepage"></svg></a>
+
+	<!-- Your project title and intro go here. Choose a catchy and descriptive title
+	and write a one or two sentence intro about what makes your project cool. -->
+	<div id="top" style="width: 100%!important; margin: 0px -10% 0px -5%;">
+		<span id="title">C.E. vs D.D.P.G. Methods for Pendulum-v0 Environment</span>
+		<div id="intro">Investigating the Cross-Entropy and Deep Deterministic Policy Gradient methods when applied to the Pendulum-v0 OpenAI Gym environment by Jimmy DeLano</div>
+	</div>
+
+	<!-- Use the these sections as templates for reporting your process and results. Use
+	as many sections as you need to concisely describe your project - I encourage you to
+	use the project rubric as a guide for sections. Feel free to use images or link to your
+	GitHub repo, research papers you read, etc. Keep the class attributes on the divs to
+	keep your styling consistent (or change them, if you'd like!). -->
+	<div class="description-section">
+		<div class="section-title">Environment Overview</div>
+		<div class="section-detail">
+			<img style = "float: right; width: 300px" src="pendulum.gif">
+			<br>
+			The goal of the pendulum-v0 problem is to swing a frictionless pendulum upright so it stays vertical, pointed upwards. The pendulum starts in a random position every time, and, since pendulum-v0 is an unsolved environment, it does not have a specified reward threshold at which it is considered solved nor at which the episode will terminate.
+			<br>
+
+			<p>There are three observation inputs for this environment, representing the angle of the pendulum (0 and 1) and its angular velocity (2).</p>
+			<img style = "float: center; width: 300px" src="inputs.png">
+			<br>
+
+			<p>The action is a value between -2.0 and 2.0, representing the amount of left or right force on the pendulum.</p>
+
+			<img style = "float: center; width: 300px" src="action.png">
+			<br>
+
+			<br>
+			The precise equation for reward is:  -theta2 + 0.1*theta_dt2 +0.001*action2.
+			<br>
+
+			<br>
+			Theta is normalized between -pi and pi. Therefore, the lowest cost is -(π2 + 0.1*82 + 0.001*22) = -16.2736044, and the highest cost is 0. In essence, the goal is to remain at zero angle (vertical), with the least rotational velocity, and the least effort.
+
+		</div>
+
+	</div>
+
+	<div class="description-section">
+		<div class="section-title">Cross-Entropy</div>
+		<img class="project-img" style="float: right; width: 400px" src="ce.png">
+		<div class="section-detail">
+			The agent learns by acting in the environment. Tasks in Reinforcement Learning are often modeled as Markov Decision Processes in which optimal actions over the state space S have to be found to optimize the total return over the process. At timestep t the agent is in state s and takes an action a &#949; A(s), where A(s) is the set of possible actions in s. It then transitions to state s<sub>t+1</sub> and receives a reward r<sub> t+1</sub> &#949; &#8476;. <sup><a href="#fn1" id="ref1">1</a></sup>
+			<br>
+
+			<br>
+			This process is outlined here:
+			<br>
+
+			<img style = "float: center; width: 500px" src="code1.png">
+			<br>
+
+			<br>
+			<p>
+			Based on this interaction the agent must learn the optimal policy &#960;<sup>*</sup>: S --> A to optimize the total return for a continuous task. <sup><a href="#fn2" id="ref2">2</a></sup>
+			</p>
+			<img style = "float: center; width: 200px" src="equation1.png">
+			<br>
+
+			<br>
+			In Reinforcement Learning, learning the optimal policy is based on estimating state-value function, which expresses the value of being in a certain state. When the model of the environment is known, one can predict to what state each action will lead, and choose the action that leads to the state with the highest value.
+			<br>
+
+			<br>
+			The value for a certain state following policy &#960; is given by this complicated Bellman Equation where &#960;(s, a) is the chance of taking action a in s. <sup><a href="#fn3" id="ref3">3</a></sup>
+			<br>
+
+			<br>
+			<img style = "float: center; width: 250px" src="equation2.png">
+			<br>
+
+			<p>Therefore, the agent can learn the optimal policy &#960;<sup>*</sup> by learning the optimal state-value function: <img style = "float: center; width: 200px" src="equation3.png">. <sup><a href="#fn4" id="ref4">4</a></sup></p>
+
+			<br>
+			The task for the Cross Entropy method is to optimize the weights of this state-value function V(s), which determines the action of the agent, for each state using a linear value function with weights w and features &#934; defining the value of a state for n features.
+			<br>
+
+			<br>
+			The core idea of the CE method is to sample the problem space and approximate the distribution of good solutions by assuming a distribution of the problem space, sampling the problem domain by generating candidate solutions using the distribution, and updating the distribution based on the better candidate solutions discovered. Samples are constructed step-wise (one component at a time) based on the summarized distribution of good solutions. As the algorithm progresses, the distribution becomes more refined until it focuses on the area or scope of optimal solutions in the domain. <sup><a href="#fn5" id="ref5">5</a></sup>
+			<br>
+
+			<br>
+			The random sample is generated here:
+			<br>
+
+			<img style = "float: center; width: 500px" src="code2.png">
+			<br>
+
+			<br>
+			Weights are updated here to produce a better sample in the next iteration:
+			<br>
+
+			<img style = "float: center; width: 500px" src="code3.png">
+			<br>
+
+
+			<br>
+			<hr></hr>
+			<sup id="fn1">1. [&quot;Cross Entropy Method for Reinforcement Learning&quot; by Steijn Kistemaker http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.224.3184&rep=rep1&type=pdf]<a href="#ref1" title="Jump back to footnote 1 in the text.">↩</a></sup> <br>
+			<sup id="fn2">2. [ibid]<a href="#ref2" title="Jump back to footnote 2 in the text.">↩</a></sup> <br>
+			<sup id="fn3">3. [ibid]<a href="#ref3" title="Jump back to footnote 3 in the text.">↩</a></sup> <br>
+			<sup id="fn4">4. [ibid]<a href="#ref4" title="Jump back to footnote 4 in the text.">↩</a></sup> <br>
+			<sup id="fn5">5. [ibid]<a href="#ref5" title="Jump back to footnote 5 in the text.">↩</a></sup> <br>
+		</div>
+	</div>
+	<div class="description-section">
+		<div class="section-title">Deep Deterministic Policy Gradient -- An Actor-Critic, Off-Policy, Model-Free Algorithm:</div>
+		<img class="project-img" style="float: right; width: 300px" src="ddpg.png">
+		<div class="section-detail">
+			Policy-Gradient (PG) algorithms optimize a policy end-to-end by computing noisy estimates of the gradient of the expected reward of the policy and then updating the policy in the gradient direction. <sup><a href="#fn6" id="ref6">6</a></sup>
+			<br>
+
+			<br>
+			&quot;The Actor-Critic learning algorithm is used to represent the policy function independently of the value function. The policy function structure is known as the actor, and the value function structure is referred to as the critic.&quot;<sup><a href="#fn7" id="ref7">7</a></sup>
+			<br>
+
+			<br>
+			These actor and critic networks compute the action for the current state and generate a temporal-difference (TD) error signal each time step.
+			<br>
+
+			<br>
+			The input of the actor network is the current state, and the output is a value representing an action chosen from a continuous action space. The deterministic policy gradient theorem provides the update rule for the weights of the actor network. <sup><a href="#fn8" id="ref8">8</a></sup>
+			<br>
+
+			<img style = "float: center; width: 500px" src="code4.png">
+			<br>
+
+			<br>
+			The critic&#8217;s input is the current state and the action given by the actor, and its output is the estimated Q-value. The critic network is updated from the gradients obtained from the TD error signal. The output of the critic drives learning in both the actor and the critic. <sup><a href="#fn9" id="ref9">9</a></sup>
+			<br>
+
+			<img style = "float: center; width: 500px" src="code5.png">
+			<br>
+
+			<br>
+			In general, training and evaluating the policy and/or value function with thousands of temporally-correlated simulated trajectories leads to the introduction of enormous amounts of variance in the critic&#8217;s approximation of the Q-function. The TD error signal is excellent at compounding the variance introduced by your bad predictions over time. Therefore, a replay buffer is used to store the experiences of the agent during training, and then randomly sample experiences to use for learning in order to break up the temporal correlations within different training episodes. This technique is known as experience replay: <sup><a href="#fn10" id="ref10">10</a></sup>
+			<br>
+
+			<img style = "float: center; width: 500px" src="code6.png">
+			<br>
+
+			<br>
+			The last critical component is the implementation of target networks. &quot;Directly updating your actor and critic neural network weights with the gradients obtained from the TD error signal that was computed from both your replay buffer and the output of the actor and critic networks causes your learning algorithm to diverge (or to not learn at all).&quot; <sup><a href="#fn11" id="ref11">11</a></sup> Therefore using a set of target networks to generate targets for TD error computation, constraining the targets to train slowly, regularizes the learning algorithm and increases stability. <sup><a href="#fn12" id="ref12">12</a></sup>
+			<br>
+
+			<img style = "float: center; width: 500px" src="code7.png">
+			<br>
+
+			<br>
+			<hr></hr>
+			<sup id="fn6">6. [&quot;Deep Deterministic Policy Gradients in Tensorflow&quot; by Patrick Emami http://pemami4911.github.io/blog/2016/08/21/ddpg-rl.html ]<a href="#ref6" title="Jump back to footnote 6 in the text.">↩</a></sup> <br>
+			<sup id="fn7">7. [ibid]<a href="#ref7" title="Jump back to footnote 7 in the text.">↩</a></sup> <br>
+			<sup id="fn8">8. [ibid]<a href="#ref8" title="Jump back to footnote 8 in the text.">↩</a></sup> <br>
+			<sup id="fn9">9. [ibid]<a href="#ref9" title="Jump back to footnote 9 in the text.">↩</a></sup> <br>
+			<sup id="fn10">10. [ibid]<a href="#ref10" title="Jump back to footnote 10 in the text.">↩</a></sup> <br>
+			<sup id="fn11">11. [ibid]<a href="#ref11" title="Jump back to footnote 11 in the text.">↩</a></sup> <br>
+			<sup id="fn12">12. [&quot;Continuous Control with Deep Reinforcement Learning&quot; by Lillicrap et. al. https://arxiv.org/pdf/1509.02971.pdf]<a href="#ref12" title="Jump back to footnote 12 in the text.">↩</a></sup> <br>
+
+		</div>
+	</div>
+
+
+	<div class="description-section">
+		<div class="section-title">Performance Comparison</div>
+		<div class="section-detail">
+			<img style = "float: center; width: 400px" src="fig1.png">
+			<br>
+
+			<br>
+<script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-0.12.13.min.js"></script>
+<script type="text/javascript">
+    Bokeh.set_log_level("info");
+</script>
+        <style>
+          html {
+            width: 100%;
+            height: 100%;
+          }
+          body {
+            width: 90%;
+            height: 100%;
+            margin: auto;
+          }
+        </style>
+    </head>
+    <body>
+
+        <div class="bk-root">
+            <div class="bk-plotdiv" id="9db4b68a-ff88-4097-996a-196246b70ab7"></div>
+        </div>
+
+        <script type="application/json" id="5e12d792-4972-45e0-8be1-a9fbac3a1666">
+          {"15ab25d5-a95a-4ccb-91b5-30d5e4c388e4":{"roots":{"references":[{"attributes":{"below":[{"id":"e8cda1a4-a7ff-454d-a993-2d641a2cdad5","type":"LinearAxis"}],"left":[{"id":"b55c3a7b-b4b0-4d3f-8c21-b212140c3e57","type":"LinearAxis"}],"plot_width":900,"renderers":[{"id":"e8cda1a4-a7ff-454d-a993-2d641a2cdad5","type":"LinearAxis"},{"id":"75ea7dc1-3d91-48a4-8970-b040bb230ecd","type":"Grid"},{"id":"b55c3a7b-b4b0-4d3f-8c21-b212140c3e57","type":"LinearAxis"},{"id":"fd80db8d-8fd4-4d4f-b4eb-8f7a800ac68c","type":"Grid"},{"id":"5301785e-b46d-46b3-8bd7-9d0a25f67700","type":"BoxAnnotation"},{"id":"b965fad3-5cef-4a3b-b338-ddfd2bbf96c0","type":"Legend"},{"id":"07267a42-8f4f-4084-bb57-56a3e6a25e48","type":"GlyphRenderer"}],"title":{"id":"2bf87889-8674-4e19-88e0-bec69cee7dd8","type":"Title"},"toolbar":{"id":"86777530-3856-488d-a854-fe4b6f8add89","type":"Toolbar"},"x_range":{"id":"91adce9b-9607-4de1-b4a3-20f737ea1b44","type":"DataRange1d"},"x_scale":{"id":"de94d0d0-17a3-4fa3-9f6b-d7ffc26c9bb4","type":"LinearScale"},"y_range":{"id":"fa28b263-ade0-4dfb-9e89-41830aeffaeb","type":"DataRange1d"},"y_scale":{"id":"d70c669b-34e6-4290-a5e4-cca39cb0d110","type":"LinearScale"}},"id":"a4b6be53-0277-440f-a704-cf1eb4b711a2","subtype":"Figure","type":"Plot"},{"attributes":{"dimension":1,"plot":{"id":"a4b6be53-0277-440f-a704-cf1eb4b711a2","subtype":"Figure","type":"Plot"},"ticker":{"id":"9d30747b-e79b-438d-9340-a0742317751a","type":"BasicTicker"}},"id":"fd80db8d-8fd4-4d4f-b4eb-8f7a800ac68c","type":"Grid"},{"attributes":{},"id":"d70c669b-34e6-4290-a5e4-cca39cb0d110","type":"LinearScale"},{"attributes":{},"id":"5bc1d1ad-a6f5-4492-9c67-c9ab5da91a39","type":"PanTool"},{"attributes":{"plot":null,"text":"Performance of Cross-Entropy Method"},"id":"2bf87889-8674-4e19-88e0-bec69cee7dd8","type":"Title"},{"attributes":{},"id":"9d30747b-e79b-438d-9340-a0742317751a","type":"BasicTicker"},{"attributes":{},"id":"c288ad68-be89-49b0-b459-60bd04b05003","type":"WheelZoomTool"},{"attributes":{},"id":"47dbfdd8-14ba-44f2-9631-78d227e2beb0","type":"ResetTool"},{"attributes":{"items":[{"id":"f2b35252-2b56-4c0a-8f44-44ba9e1d13dc","type":"LegendItem"}],"plot":{"id":"a4b6be53-0277-440f-a704-cf1eb4b711a2","subtype":"Figure","type":"Plot"}},"id":"b965fad3-5cef-4a3b-b338-ddfd2bbf96c0","type":"Legend"},{"attributes":{"axis_label":"Reward at End of Test","formatter":{"id":"2e28083d-c5d3-4a40-8871-07764ce5a90c","type":"BasicTickFormatter"},"plot":{"id":"a4b6be53-0277-440f-a704-cf1eb4b711a2","subtype":"Figure","type":"Plot"},"ticker":{"id":"9d30747b-e79b-438d-9340-a0742317751a","type":"BasicTicker"}},"id":"b55c3a7b-b4b0-4d3f-8c21-b212140c3e57","type":"LinearAxis"},{"attributes":{"line_width":5,"x":{"field":"x"},"y":{"field":"y"}},"id":"ee0ac7fb-dd26-4efe-b164-a08134847879","type":"Line"},{"attributes":{"axis_label":"Epoch Number","formatter":{"id":"475b3c89-9234-428c-a508-c89843a15e64","type":"BasicTickFormatter"},"plot":{"id":"a4b6be53-0277-440f-a704-cf1eb4b711a2","subtype":"Figure","type":"Plot"},"ticker":{"id":"01bae505-8df4-45c6-8d2f-d63d44f10ebe","type":"BasicTicker"}},"id":"e8cda1a4-a7ff-454d-a993-2d641a2cdad5","type":"LinearAxis"},{"attributes":{"callback":null},"id":"91adce9b-9607-4de1-b4a3-20f737ea1b44","type":"DataRange1d"},{"attributes":{},"id":"57fb91f9-ad2f-4da2-bd3f-d1f37ee5e382","type":"SaveTool"},{"attributes":{},"id":"475b3c89-9234-428c-a508-c89843a15e64","type":"BasicTickFormatter"},{"attributes":{"callback":null},"id":"fa28b263-ade0-4dfb-9e89-41830aeffaeb","type":"DataRange1d"},{"attributes":{},"id":"01bae505-8df4-45c6-8d2f-d63d44f10ebe","type":"BasicTicker"},{"attributes":{},"id":"2e28083d-c5d3-4a40-8871-07764ce5a90c","type":"BasicTickFormatter"},{"attributes":{},"id":"de94d0d0-17a3-4fa3-9f6b-d7ffc26c9bb4","type":"LinearScale"},{"attributes":{},"id":"0928ba74-e2b7-4c2f-80da-7eb41b42e7d4","type":"HelpTool"},{"attributes":{"overlay":{"id":"5301785e-b46d-46b3-8bd7-9d0a25f67700","type":"BoxAnnotation"}},"id":"ecf04869-8a96-4337-9a86-451124a0245e","type":"BoxZoomTool"},{"attributes":{"callback":null,"column_names":["y","x"],"data":{"x":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79],"y":{"__ndarray__":"n1IzHr9sl8Cop4HLJuKZwCeN6HdY+YvA6gJ7ztpUYcAiCqs6R3SXwLtvUiAhO2HAAAUk3HOPYMD92ty6YoWXwDHYBdRN1I3A4OFC8Osdb8Cz3lrsqKp2wEUYDHch22DAZBlATkAG/L+zHnAHLTpewNGgFp0T/XTAoNronh4zdsCa33B4SaeUwLxVcCf7UAfAng/u9eZ7fcARzWqR7POCwNBaQsSBenrA9JMk1tUufcCk+3TMKG1ewBQZu+X9JGDAtLdw44whd8DtFayo1112wD/lxxU3qm7Aro8ljQf0X8CmBspH2VNrwDik+6kKnQTA2lgRrnMYX8CNOZ2tU0RgwF4ppXfllHbAcolaWGE9BsDEZwtlN+52wEXAMUWifQHA66IaN2BbYMA66ZUJ/c9gwCR26KtfzWzA/ZNdVhfrdsDLT1g/UmNewCRBxEL8pG7A3G1scZ4Zb8BP6bjQxK1ewJMG6oLZHXfAZHXNeua0dsBhhZVGIVhfwFCoQu7qS5fAClIBqtldXsCVBRV3OzJgwAo7BfM5Al/AJvW1/38Rb8AyTCM+3QJfwBx603bjm3nAgeQ7boFgXcAx4Il8XWxfwGU14BJi9XrAMwkztsxL+L+1x/S7DXZgwPpAbwrJ9WvAK4u+IRLIXsAGKV3TVrBtwGUGZhhJOnnAFx4l/v6QX8DIKHsgvtVewB8Ke5mbl13AVhnKeKN8bsBffkeLrz9gwOXyX6ZyNg3AXCv7ryFYX8CBF8//62FewBBCw97JimDAHK27v+fDe8C2GIfHM2NgwC+XS/EdW27AJ2ZCKa4HX8A7xl+WONNgwACUucyyHgfAtQzS0PqxX8ADoycwaVcCwA==","dtype":"float64","shape":[80]}}},"id":"01611ff3-6702-4da2-a96d-dcf51f38e27f","type":"ColumnDataSource"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_scroll":"auto","active_tap":"auto","tools":[{"id":"5bc1d1ad-a6f5-4492-9c67-c9ab5da91a39","type":"PanTool"},{"id":"c288ad68-be89-49b0-b459-60bd04b05003","type":"WheelZoomTool"},{"id":"ecf04869-8a96-4337-9a86-451124a0245e","type":"BoxZoomTool"},{"id":"57fb91f9-ad2f-4da2-bd3f-d1f37ee5e382","type":"SaveTool"},{"id":"47dbfdd8-14ba-44f2-9631-78d227e2beb0","type":"ResetTool"},{"id":"0928ba74-e2b7-4c2f-80da-7eb41b42e7d4","type":"HelpTool"}]},"id":"86777530-3856-488d-a854-fe4b6f8add89","type":"Toolbar"},{"attributes":{"line_alpha":0.1,"line_color":"#1f77b4","line_width":5,"x":{"field":"x"},"y":{"field":"y"}},"id":"9235b8b4-008d-4b9a-b4c8-5c3481149b9b","type":"Line"},{"attributes":{"label":{"value":"Reward"},"renderers":[{"id":"07267a42-8f4f-4084-bb57-56a3e6a25e48","type":"GlyphRenderer"}]},"id":"f2b35252-2b56-4c0a-8f44-44ba9e1d13dc","type":"LegendItem"},{"attributes":{"bottom_units":"screen","fill_alpha":{"value":0.5},"fill_color":{"value":"lightgrey"},"left_units":"screen","level":"overlay","line_alpha":{"value":1.0},"line_color":{"value":"black"},"line_dash":[4,4],"line_width":{"value":2},"plot":null,"render_mode":"css","right_units":"screen","top_units":"screen"},"id":"5301785e-b46d-46b3-8bd7-9d0a25f67700","type":"BoxAnnotation"},{"attributes":{"plot":{"id":"a4b6be53-0277-440f-a704-cf1eb4b711a2","subtype":"Figure","type":"Plot"},"ticker":{"id":"01bae505-8df4-45c6-8d2f-d63d44f10ebe","type":"BasicTicker"}},"id":"75ea7dc1-3d91-48a4-8970-b040bb230ecd","type":"Grid"},{"attributes":{"source":{"id":"01611ff3-6702-4da2-a96d-dcf51f38e27f","type":"ColumnDataSource"}},"id":"feaf743f-9252-4126-bf89-0a9e3ca28d17","type":"CDSView"},{"attributes":{"data_source":{"id":"01611ff3-6702-4da2-a96d-dcf51f38e27f","type":"ColumnDataSource"},"glyph":{"id":"ee0ac7fb-dd26-4efe-b164-a08134847879","type":"Line"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"9235b8b4-008d-4b9a-b4c8-5c3481149b9b","type":"Line"},"selection_glyph":null,"view":{"id":"feaf743f-9252-4126-bf89-0a9e3ca28d17","type":"CDSView"}},"id":"07267a42-8f4f-4084-bb57-56a3e6a25e48","type":"GlyphRenderer"}],"root_ids":["a4b6be53-0277-440f-a704-cf1eb4b711a2"]},"title":"Bokeh Application","version":"0.12.13"}}
+        </script>
+        <script type="text/javascript">
+          (function() {
+            var fn = function() {
+              Bokeh.safely(function() {
+                (function(root) {
+                  function embed_document(root) {
+
+                  var docs_json = document.getElementById('5e12d792-4972-45e0-8be1-a9fbac3a1666').textContent;
+                  var render_items = [{"docid":"15ab25d5-a95a-4ccb-91b5-30d5e4c388e4","elementid":"9db4b68a-ff88-4097-996a-196246b70ab7","modelid":"a4b6be53-0277-440f-a704-cf1eb4b711a2"}];
+                  root.Bokeh.embed.embed_items(docs_json, render_items);
+
+                  }
+                  if (root.Bokeh !== undefined) {
+                    embed_document(root);
+                  } else {
+                    var attempts = 0;
+                    var timer = setInterval(function(root) {
+                      if (root.Bokeh !== undefined) {
+                        embed_document(root);
+                        clearInterval(timer);
+                      }
+                      attempts++;
+                      if (attempts > 100) {
+                        console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing")
+                        clearInterval(timer);
+                      }
+                    }, 10, root)
+                  }
+                })(window);
+              });
+            };
+            if (document.readyState != "loading") fn();
+            else document.addEventListener("DOMContentLoaded", fn);
+          })();
+        </script>
+        <br>
+
+        	<img style = "float: center; width: 400px" src="fig2.png">
+			<br>
+<br>
+<script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-0.12.13.min.js"></script>
+<script type="text/javascript">
+    Bokeh.set_log_level("info");
+</script>
+        <style>
+          html {
+            width: 100%;
+            height: 100%;
+          }
+          body {
+            width: 90%;
+            height: 100%;
+            margin: auto;
+          }
+        </style>
+    </head>
+    <body>
+
+        <div class="bk-root">
+            <div class="bk-plotdiv" id="54b9b8ed-4bcb-4e6d-b39b-7891a9ed4109"></div>
+        </div>
+
+        <script type="application/json" id="1b4dba52-73a7-4441-af26-1ca23ae3f327">
+          {"47c1dffa-2e74-4f11-a291-8e39b5f4c764":{"roots":{"references":[{"attributes":{"source":{"id":"17703bb7-1b4c-4ecb-ad41-3cd5108895b0","type":"ColumnDataSource"}},"id":"1ac768d8-40a6-4acf-ac6d-0c59981b5d29","type":"CDSView"},{"attributes":{"overlay":{"id":"118c4d0d-135b-4844-bd07-ef3282635c42","type":"BoxAnnotation"}},"id":"d737b4f9-2b88-47cd-b025-e91c88efdff7","type":"BoxZoomTool"},{"attributes":{},"id":"334050b7-0a29-4dd0-806c-00ffe16d3e9c","type":"SaveTool"},{"attributes":{},"id":"21601742-ca28-496b-b595-576aa15b3423","type":"LinearScale"},{"attributes":{"bottom_units":"screen","fill_alpha":{"value":0.5},"fill_color":{"value":"lightgrey"},"left_units":"screen","level":"overlay","line_alpha":{"value":1.0},"line_color":{"value":"black"},"line_dash":[4,4],"line_width":{"value":2},"plot":null,"render_mode":"css","right_units":"screen","top_units":"screen"},"id":"118c4d0d-135b-4844-bd07-ef3282635c42","type":"BoxAnnotation"},{"attributes":{},"id":"e45ac857-8d6f-441d-ba12-2812aaeedfe1","type":"BasicTickFormatter"},{"attributes":{},"id":"5aa4b649-e7ef-4465-a344-5241fab8d72e","type":"BasicTicker"},{"attributes":{},"id":"6eef2823-3e7e-4ce5-8979-47c22fe85537","type":"HelpTool"},{"attributes":{"callback":null},"id":"1a1bb417-9677-4f18-abeb-e423b1fcf605","type":"DataRange1d"},{"attributes":{"callback":null,"column_names":["y","x"],"data":{"x":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199],"y":{"__ndarray__":"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","dtype":"float64","shape":[200]}}},"id":"17703bb7-1b4c-4ecb-ad41-3cd5108895b0","type":"ColumnDataSource"},{"attributes":{},"id":"c558c9b2-3aad-46f6-a349-07cfae747c33","type":"WheelZoomTool"},{"attributes":{"items":[{"id":"b4b3dcfb-4f19-41b1-a510-3e3cb68547e6","type":"LegendItem"}],"plot":{"id":"5f1d3db8-00c6-4cfd-bcf5-667fcaa47967","subtype":"Figure","type":"Plot"}},"id":"6d412f87-d0e5-42af-b680-9593e95e7be6","type":"Legend"},{"attributes":{"line_alpha":0.1,"line_color":"#1f77b4","line_width":5,"x":{"field":"x"},"y":{"field":"y"}},"id":"5cbc7510-6e47-4011-b2f9-05db1ffc907d","type":"Line"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_scroll":"auto","active_tap":"auto","tools":[{"id":"13c5fc2c-9bb0-4405-b3ff-6803fa6343f4","type":"PanTool"},{"id":"c558c9b2-3aad-46f6-a349-07cfae747c33","type":"WheelZoomTool"},{"id":"d737b4f9-2b88-47cd-b025-e91c88efdff7","type":"BoxZoomTool"},{"id":"334050b7-0a29-4dd0-806c-00ffe16d3e9c","type":"SaveTool"},{"id":"5042cccf-c1f3-4b10-bedb-c5ca5b6aa145","type":"ResetTool"},{"id":"6eef2823-3e7e-4ce5-8979-47c22fe85537","type":"HelpTool"}]},"id":"9b74fc62-19bd-4eb9-8b0f-4f4ad40d3604","type":"Toolbar"},{"attributes":{"axis_label":"Reward","formatter":{"id":"1611a8d2-dce1-4c40-b020-5b1d75ef04c2","type":"BasicTickFormatter"},"plot":{"id":"5f1d3db8-00c6-4cfd-bcf5-667fcaa47967","subtype":"Figure","type":"Plot"},"ticker":{"id":"5aa4b649-e7ef-4465-a344-5241fab8d72e","type":"BasicTicker"}},"id":"3f476d07-4720-4c14-bf8d-fb1608db3999","type":"LinearAxis"},{"attributes":{"plot":null,"text":"Actor-Critic DDPG Method"},"id":"2a1921a7-f909-42af-9146-8d0a656cc063","type":"Title"},{"attributes":{},"id":"fbcbbbac-d9dd-4b7c-8f4e-6efe920bd86f","type":"LinearScale"},{"attributes":{"plot":{"id":"5f1d3db8-00c6-4cfd-bcf5-667fcaa47967","subtype":"Figure","type":"Plot"},"ticker":{"id":"a61e2d54-300f-476f-bf68-8fc0f87f7973","type":"BasicTicker"}},"id":"bbc501b1-a7b4-43f6-8eea-6f8422f1ca8f","type":"Grid"},{"attributes":{"callback":null},"id":"be2a4581-f56e-4c0c-bb7e-13233b70b82c","type":"DataRange1d"},{"attributes":{},"id":"5042cccf-c1f3-4b10-bedb-c5ca5b6aa145","type":"ResetTool"},{"attributes":{},"id":"a61e2d54-300f-476f-bf68-8fc0f87f7973","type":"BasicTicker"},{"attributes":{},"id":"1611a8d2-dce1-4c40-b020-5b1d75ef04c2","type":"BasicTickFormatter"},{"attributes":{},"id":"13c5fc2c-9bb0-4405-b3ff-6803fa6343f4","type":"PanTool"},{"attributes":{"axis_label":"Epoch Number (in tens)","formatter":{"id":"e45ac857-8d6f-441d-ba12-2812aaeedfe1","type":"BasicTickFormatter"},"plot":{"id":"5f1d3db8-00c6-4cfd-bcf5-667fcaa47967","subtype":"Figure","type":"Plot"},"ticker":{"id":"a61e2d54-300f-476f-bf68-8fc0f87f7973","type":"BasicTicker"}},"id":"65b1a5e8-9a28-4dba-8809-54961a27a48e","type":"LinearAxis"},{"attributes":{"data_source":{"id":"17703bb7-1b4c-4ecb-ad41-3cd5108895b0","type":"ColumnDataSource"},"glyph":{"id":"eda844d2-db53-4c4f-8920-3abbf2cc3a29","type":"Line"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"5cbc7510-6e47-4011-b2f9-05db1ffc907d","type":"Line"},"selection_glyph":null,"view":{"id":"1ac768d8-40a6-4acf-ac6d-0c59981b5d29","type":"CDSView"}},"id":"41f06519-6b8c-4598-b6db-a6270d5ac1ce","type":"GlyphRenderer"},{"attributes":{"line_width":5,"x":{"field":"x"},"y":{"field":"y"}},"id":"eda844d2-db53-4c4f-8920-3abbf2cc3a29","type":"Line"},{"attributes":{"label":{"value":"Reward"},"renderers":[{"id":"41f06519-6b8c-4598-b6db-a6270d5ac1ce","type":"GlyphRenderer"}]},"id":"b4b3dcfb-4f19-41b1-a510-3e3cb68547e6","type":"LegendItem"},{"attributes":{"dimension":1,"plot":{"id":"5f1d3db8-00c6-4cfd-bcf5-667fcaa47967","subtype":"Figure","type":"Plot"},"ticker":{"id":"5aa4b649-e7ef-4465-a344-5241fab8d72e","type":"BasicTicker"}},"id":"09c9dd71-4043-4e73-92c6-f11f59b0bcec","type":"Grid"},{"attributes":{"below":[{"id":"65b1a5e8-9a28-4dba-8809-54961a27a48e","type":"LinearAxis"}],"left":[{"id":"3f476d07-4720-4c14-bf8d-fb1608db3999","type":"LinearAxis"}],"plot_width":900,"renderers":[{"id":"65b1a5e8-9a28-4dba-8809-54961a27a48e","type":"LinearAxis"},{"id":"bbc501b1-a7b4-43f6-8eea-6f8422f1ca8f","type":"Grid"},{"id":"3f476d07-4720-4c14-bf8d-fb1608db3999","type":"LinearAxis"},{"id":"09c9dd71-4043-4e73-92c6-f11f59b0bcec","type":"Grid"},{"id":"118c4d0d-135b-4844-bd07-ef3282635c42","type":"BoxAnnotation"},{"id":"6d412f87-d0e5-42af-b680-9593e95e7be6","type":"Legend"},{"id":"41f06519-6b8c-4598-b6db-a6270d5ac1ce","type":"GlyphRenderer"}],"title":{"id":"2a1921a7-f909-42af-9146-8d0a656cc063","type":"Title"},"toolbar":{"id":"9b74fc62-19bd-4eb9-8b0f-4f4ad40d3604","type":"Toolbar"},"x_range":{"id":"be2a4581-f56e-4c0c-bb7e-13233b70b82c","type":"DataRange1d"},"x_scale":{"id":"fbcbbbac-d9dd-4b7c-8f4e-6efe920bd86f","type":"LinearScale"},"y_range":{"id":"1a1bb417-9677-4f18-abeb-e423b1fcf605","type":"DataRange1d"},"y_scale":{"id":"21601742-ca28-496b-b595-576aa15b3423","type":"LinearScale"}},"id":"5f1d3db8-00c6-4cfd-bcf5-667fcaa47967","subtype":"Figure","type":"Plot"}],"root_ids":["5f1d3db8-00c6-4cfd-bcf5-667fcaa47967"]},"title":"Bokeh Application","version":"0.12.13"}}
+        </script>
+        <script type="text/javascript">
+          (function() {
+            var fn = function() {
+              Bokeh.safely(function() {
+                (function(root) {
+                  function embed_document(root) {
+
+                  var docs_json = document.getElementById('1b4dba52-73a7-4441-af26-1ca23ae3f327').textContent;
+                  var render_items = [{"docid":"47c1dffa-2e74-4f11-a291-8e39b5f4c764","elementid":"54b9b8ed-4bcb-4e6d-b39b-7891a9ed4109","modelid":"5f1d3db8-00c6-4cfd-bcf5-667fcaa47967"}];
+                  root.Bokeh.embed.embed_items(docs_json, render_items);
+
+                  }
+                  if (root.Bokeh !== undefined) {
+                    embed_document(root);
+                  } else {
+                    var attempts = 0;
+                    var timer = setInterval(function(root) {
+                      if (root.Bokeh !== undefined) {
+                        embed_document(root);
+                        clearInterval(timer);
+                      }
+                      attempts++;
+                      if (attempts > 100) {
+                        console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing")
+                        clearInterval(timer);
+                      }
+                    }, 10, root)
+                  }
+                })(window);
+              });
+            };
+            if (document.readyState != "loading") fn();
+            else document.addEventListener("DOMContentLoaded", fn);
+          })();
+        </script>
+
+
+		</div>
+	</div>
+
+<div class="description-section">
+		<div class="section-title">Performance Comparison</div>
+		<div class="section-detail">
+			The Cross-Entropy Method must learn to swing up and stay balanced, which explains its significantly longer run time (119.1 minutes compared to DDPG&#8217;s 30.3). The Actor-Critic algorithm rapid learning process is evident through its difference in rewards from epoch 0 to about epoch 20. These two phenomena explain the difference in these two distributions&#8217; spreads: the CE Method&#8217;s IQR was 239.11 while the DDPG Method&#8217;s IQR was 73.06. However, in the end, the two methods median scores were almost identical: the median reward was -134.72 for the CE Method and -133.21 for the DDPG Method.
+			<br>
+
+			<br>
+			It would be interesting to see if these trends also apply to other OpenAI environments or if this relationship is environment specific. Additionally, it would be intriguing to examine the effect of varying these methods&#8217; hyperparameters on their performance over time.
+
+	</div>
+</div>
+
+
+
+</body>
+</html>

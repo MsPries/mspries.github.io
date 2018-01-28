@@ -1,0 +1,111 @@
+<html>
+<head>
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+	<link rel="stylesheet" href="styles/styles.css">
+	<title>Programming 4 - Who Survives? </title>
+    <style type="text/css">
+
+.tab { margin-left: 40px; }
+
+         .vspace {
+     margin-bottom: 1mm;
+  }
+        
+    
+</style>
+</head>
+
+<body>
+	<!-- Home button -->
+	<a href="index.html"><img id="home" src="img/home.png" alt="Go back to the homepage"></svg></a>
+
+	<!-- -->
+	<div id="top">
+		<span id="title">Predicting The Results of "Survivor"</span>
+		<div id="intro">Our project uses a Bag of Words model to predict a player’s final rank in the reality TV show "Survivor" based off their confessionals. Its success far exceeds our baseline (1/18) and also gets close to the actual rank (far more accurately than a random guess).</div>
+	</div>
+
+	<!-- Use the these sections as templates for reporting your process and results. Use
+	as many sections as you need to concisely describe your project - I encourage you to
+	use the project rubric as a guide for sections. Feel free to use images or link to your
+	GitHub repo, research papers you read, etc. Keep the class attributes on the divs to
+	keep your styling consistent (or change them, if you'd like!). -->
+	<div class="description-section">
+		<div class="section-title">Data Source</div>
+		<div class="section-detail">
+			Our training data was sourced from a Google Drive Folder created by Ismael E. Emmanuelli which included all of the confessionals from "Survivor" in seasons 1-10 and 21-34. It included numerous analysis files and the end ranks of each contestant in those seasons. 
+
+		</div>
+	</div>
+
+	<div class="description-section">
+		<div class="section-title">Data Cleaning</div>
+		<img class="project-img" style="float: right; width: 400px;" src="img/DataSourceImg.jpg">
+		<div class="section-detail">
+			We adapted these Google Docs + Google Sheets files into .txt and .csv files after pfd file reader was inconsistent and more complex. We tried implementing re and bs4 for cleaning original files, but ended up manually cleaning extra pictures and text from original files.
+            <br>
+Our actual cleaning code removes nltk stopwords except “between” and “against” (we believe these words are important in correlating results with confessionals)
+			<br>
+			
+		</div>
+	</div>
+    
+   
+     <div class="description-section">
+		<div class="section-title">Training Our Neural Network</div>
+		<img class="project-img" style="float: right; width: 400px" src="img/TrainingImg.jpg">
+		<div class="section-detail">
+			We briefly investigated implementing word embedding, but eventually settled on Bag of Words as a training methodology.
+ <p class="vspace">
+   Training Method Code Stats:
+</p>
+           
+            <br>
+            
+         
+			<p class="tab">Neurons: 100</p>
+       
+            <p class="tab">0.0001 alpha</p>
+          
+            <p class="tab">Epochs: 1000</p>
+    
+            <p class="tab">Input Array Dimensions: 10570 x 8687</p>
+     
+            <p class="tab">Run Time: 28.4 minutes </p>
+
+            
+            
+		</div>
+	</div>
+    
+    	<div class="description-section">
+		<div class="section-title">Testing Our Neural Network</div>
+		<img class="project-img" style="float: right; width: 800px; height:200px;" src="img/ResultsImg(1).jpg">
+        <img class="project-img" style="float: right; width: 800px; height:200px;" src="img/ResultsImg(2).jpg"> 
+        <img class="project-img" style="float: right; width: 800px; height:200px;" src="img/ResultsImg(3).jpg"> 
+
+            
+
+        
+		<div class="section-detail">
+			- For testing, we initially wrote our own sentences. Later, we randomly omitted one sentence for every person from the training data, and tested the program using this sentence to see how the predicted ranking matched up with the actual.
+<br>
+- Initially, the program output a list of each rank and a corresponding likelihood. The ordering of these ranks was almost always identical, no matter what data we tested it with. We speculated that it got caught in the local minima, so we optimised training variables for more varied results. We implemented a weighted average system to convert values into rank. We mitigated technical glitches by setting a minimum commentary of 500 words. We omitted any commentary that did not contain 500 words.
+<br>
+            - Our final version's estimations are (on average) within ~4.7 ranks of the actual, and are ~1.45 ranks better than random guesses.
+            
+            
+		</div>
+	</div>
+
+   
+     
+	<div class="description-section">
+		<div class="section-title">Special Thanks</div>
+		<div class="section-detail">
+			We want to extend gratitude to Professor Eugene Charniak (an expert from Brown University on natural language processing and also the teacher of Brown's deep learning course) for discussing the project with us over the phone, and giving us valuable input on how to improve our project. Additionally, we want to thank Professor Sasha Rush (A professor at Harvard University whose research spans both machine learning and natural language processing) who gave us extensive feedback on our code through email correspondence.
+		</div>
+	</div>
+
+</body>
+</html>

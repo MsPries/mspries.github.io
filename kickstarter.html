@@ -1,0 +1,65 @@
+<html>
+<head>
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+	<link rel="stylesheet" href="styles/styles.css">
+	<title>Programming 4- A Kickstart on Kickstarter</title>
+</head>
+
+<body>
+	<!-- Home button -->
+	<a href="index.html"><img id="home" src="img/home.png" alt="Go back to the homepage"></svg></a>
+
+	<!-- Your project title and intro go here. Choose a catchy and descriptive title
+	and write a one or two sentence intro about what makes your project cool. -->
+	<div id="top">
+		<span id="title">Programming 4- A Kickstart on Kickstarter</span>
+		<div id="intro"> We are using the Bag of Words methods to predict whether a Kickstarter project will pass or fail based on the project’s description. 
+</div>
+	</div>
+
+	<!-- Use the these sections as templates for reporting your process and results. Use
+	as many sections as you need to concisely describe your project - I encourage you to
+	use the project rubric as a guide for sections. Feel free to use images or link to your
+	GitHub repo, research papers you read, etc. Keep the class attributes on the divs to
+	keep your styling consistent (or change them, if you'd like!). -->
+	<div class="description-section">
+		<div class="section-title">Data Source</div>
+		<div class="section-detail">
+			We obtained our data source from Kevin who works for Kickstarter. He provided us with a data set that contained 40,000 projects along with their descriptions and whether they passed or not.
+		</div>
+	</div>
+
+	<div class="description-section">
+		<div class="section-title">Data Cleaning</div>
+		<div class="section-detail">
+
+			In order to make our project more efficient we cut down the words in the Bag of Words. We tried to focus on adjectives which were descriptive rather than articles which didn’t make a difference. 
+
+		</div>
+	</div>
+	<div class="description-section">
+		<div class="section-title">Testing Neural Networks</div>
+		<div class="section-detail">
+			The program was created so we could find the best alpha, dropout percent, and hidden neurons for the network to use. We tested these using nested for loops so that we could find the best combination in relation to each other rather than just the best overall constants. We found that using all 40k projects was extremely time consuming, so we had to use only 50 projects instead. Even this took 12 hours to get the approx 400 runs we needed. After those 400 runs, we had the best constants to use for the network. We tried training the network using these constants and using all 40k projects. 
+		</div>
+	</div>
+
+	<div class="description-section">
+		<div class="section-title">Next Steps</div>
+		<div class="section-detail">
+			We haven’t moved on from there but the next step is probably to find a neural service online, where we can train our network on more powerful computers that don’t have such limited memory. 
+
+		</div>
+	</div>
+
+
+	<div class="description-section">
+		<div class="section-title">Special Thanks</div>
+		<div class="section-detail">
+			We would like to thank Fred Benenson for taking the time to Skype with us and we would like to thank Kevin for providing us with the dataset. 
+
+		</div>
+	</div>
+
+</body>
+</html>

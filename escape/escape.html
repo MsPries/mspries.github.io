@@ -1,0 +1,120 @@
+<html>
+	<head>
+		<meta charset='utf-8'>
+		<link rel="stylesheet" type="text/css" href="styles.css">
+		<link href="https://fonts.googleapis.com/css?family=Bangers|EB+Garamond|Lato" rel="stylesheet">
+		<title>Wizard of Prog</title>
+	</head>
+
+	<body>
+		<div id="left">
+			<div id="title">The Wizard of Prog 4</div>
+			<div id="check_area">
+				<textarea id="check" rows="1" cols ="20"></textarea>
+				<button id="check_button" onclick="check_it();">Escape!</button>
+			</div>
+			<ul id="chars">
+				<li id="judy" class="char"></li>
+				<li id="lion" class="char"></li>
+				<li id="scare" class="char"></li>
+				<li id="tin" class="char"></li>
+			</ul>
+			<footer>Ms. Pries · Programming 4 · Milton Academy</footer>
+		</div>
+
+		<div id="right">
+			<div class="clue" id="0">
+				<h1>Follow the Yellow Brick Road</h1>
+				<iframe width="560" height="315" src="https://www.youtube.com/embed/THbY7EL8k5w?rel=0" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
+				<p>Emerald City! How exciting! Oh, but the yellow brick road is long, and it will take such a long time to get there, unless you can <a href="">find a better way</a>?</p>
+				<p>If you can route a yellow brick road that gets there quickly, please tell me what you find!</p>
+				<textarea id="rd" rows="12" cols ="20"></textarea>
+				<button onclick="road_it();">Here you go!</button>
+			</div>
+
+			<div class="clue" id="1">
+				<h1>2's and 4's and 5's - oh my!</h1>
+				<iframe width="560" height="315" src="https://www.youtube.com/embed/NecK4MwOfeI?rel=0" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
+				<p>What's this? A secret message scrawled on a piece of paper?</p>
+				<img id="secret_code" src="https://raw.githubusercontent.com/MsPries/TensorFlow-MNIST/master/secret_code.png">
+				<p>It will take all period to type this in! Do you have the <i>courage</i> to find <a href="https://github.com/MsPries/TensorFlow-MNIST/">another way</a>?</p>
+				<textarea id="mes" rows="12" cols ="75"></textarea>
+				<br>
+				<button onclick="message_it();">I've Got It!</button>
+			</div>
+
+			<div class="clue" id="2">
+				<h1>If I Only Had A Brain...</h1>
+				<iframe width="560" height="315" src="https://www.youtube.com/embed/wg66kwRnOpw?rel=0" frameborder="0" allow="encrypted-media" allowfullscreen></iframe></iframe>
+				<p>You're just in time to help! I'm supposed to plant a new row of plants, but I'm having trouble knowing what to plant. The wicked witch gave me the following instructions:</p>
+				<ul>
+					<li><strong>&nbsp;&nbsp;A + B  = ?</strong></li>
+					<li>🌽+🍓=🍓</li>
+					<li>🌽+🌽=🌽</li>
+					<li>🍓+🌽=🍓</li>
+					<li>🍓+🍓=🌽</li>
+				</ul>
+				<p>Huh? If I only had a brain, I could probably figure out what to plant where... Oh! You know how to simulate a brain? Can you simulate one for me??<br>The brain I want most looks like this:</p>
+				<ul>
+					<li>A feed-forward neural network with backpropagation</li>
+					<li>One hidden layer with five nodes</li>
+					<li>Uses the sigmoid as activation function</li>
+					<li>Accept two binary inputs, gives one binary output</li>
+				</ul>
+				<p>Can you make me a brain that knows what to plant? If you do, bring back the synaptic values for me so that I can get planting before the wicked witch comes back!</p>
+				<textarea class="syn" id="syn0" rows="12" cols ="20">
+[
+    [
+        0,
+        0,
+        0,
+        0,
+        0
+    ],
+    [
+        0,
+        0,
+        0,
+        0,
+        0
+    ]
+]
+				</textarea>
+				<textarea class="syn" id="syn1" rows="12" cols ="20">
+[
+    [
+        0
+    ],
+    [
+        0
+    ],
+    [
+        0
+    ],
+    [
+        0
+    ],
+    [
+        0
+    ]
+]
+				</textarea>
+				<br>
+				<button onclick="calculate_it();">Think!</button>
+				<div id="dots">
+				</div>
+			</div>
+
+			<div class="clue" id="3">
+				<h1>What Does It Mean to Have a 💖?</h1>
+				<iframe width="560" height="315" src="https://www.youtube.com/embed/6aE-nMS9Mnk?rel=0" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
+				<p>Most of us like to think of ourselves as people who use our time to do good in the world. We offer encouragement to classmates, hold the door for people behind us, and <i>definitely</i> don't spend our lives creating a superintelligent computer program to eternally punish humanity in both reality and simulation... right?</p>
+				<p>Read about <a href="http://www.slate.com/articles/technology/bitwise/2014/07/roko_s_basilisk_the_most_terrifying_thought_experiment_of_all_time.html">Roko's Basilisk</a> and take a moment to think about it. Clarify the decision you face and discuss with your classmates. Then, take one of the magnetic X's on the table and place it on the board to commit to your choice: will you dedicate your life to building Roko's Basilisk, or risk eternal punishment?</p>
+				<p><i>Once you declare your choice, get a clue from Ms. Pries. Be prepared to defend your decision!</i></p>
+			</div>
+		</div>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="./script.js"></script>
+	</body>
+</html>

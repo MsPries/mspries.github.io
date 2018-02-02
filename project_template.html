@@ -2,7 +2,7 @@
 <head>
 	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
 	<link rel="stylesheet" href="styles/styles.css">
-	<title>Programming 4 - $YOUR_TITLE</title>
+	<title>Programming 4 - Learning Rates of AI Based on Activation Functions</title>
 </head>
 
 <body>
@@ -12,8 +12,8 @@
 	<!-- Your project title and intro go here. Choose a catchy and descriptive title
 	and write a one or two sentence intro about what makes your project cool. -->
 	<div id="top">
-		<span id="title">$YOUR_PROJECT_TITLE</span>
-		<div id="intro">$YOUR_INTRO</div>
+		<span id="title">Learning Rates of AI Based on Activation Functions</span>
+		<div id="intro">Investigating the change in learning rate of a neural network with various activation functions in OpenAIGym's "BipedalWalker-v2" environment.</div>
 	</div>
 
 	<!-- Use the these sections as templates for reporting your process and results. Use
@@ -22,26 +22,57 @@
 	GitHub repo, research papers you read, etc. Keep the class attributes on the divs to
 	keep your styling consistent (or change them, if you'd like!). -->
 	<div class="description-section">
-		<div class="section-title">Data Source</div>
+		<div class="section-title">Introduction</div>
 		<div class="section-detail">
-			We found our training data on the NHL website, where it is publicly available. We used halftime commentary from each season 2004-2017. The halftime commentary from several games was cut short either due to breaking news or technical error, so these commentaries were omitted. Our training set consists of 5,600 commentaries.
-		</div>
-	</div>
-
-	<div class="description-section">
-		<div class="section-title">Data Cleaning</div>
-		<img class="project-img" style="float: right; width: 400px" src="https://placeimg.com/560/320/any">
-		<div class="section-detail">
-			We cleaned our data by removing advertisements and words unrecognized by the NLTK dictionary, except for proper nouns. We replaced proper nouns with PLAYER for any player name and team names with TEAM1, TEAM2, or TEAM_OTHER to align the teams being described with the teams competing or a team being described that is not currently competing.
+			Since Alan Turing’s work during WWII, the concept of artificial intelligence has intrigued computer scientists worldwide. For this project, I used a "neural network" to teach a two-legged robot how to walk. A neural network essentially works by acting randomly and observing what happens in the environment: if a series of actions leads to something 'good', the neural network will take similar actions in the future, but if a series of actions leads to bad consequences, the neural network will avoid those actions. The network learns through extensive trial and error. A neural network tries to model a human brain, so 'synpases' connect the different 'nodes' of the network. Neural networks can be designed in a multitude of ways, but each one will use a mathematical “Activation Function” to correct itself. Activation functions are essentially used to calculate error and adjust the parameters of the network accordingly; as such, the activation function is integral to the success of the intelligence.
 			<br>
-			We detected technical glitches by setting a minimum commentary of 500 words. We omitted any commentary that did not contain 500 words.
+			<br>
+			Once again, many different functions can be used, which will all produce varying results. Some will provide greater learning speeds, while others will provide greater accuracy. Truly, though, programmers still don’t really know which activation functions are most useful in which situations. As such, programmers often have to do some guesswork when choosing which activation function to use. 
+
 		</div>
 	</div>
 
 	<div class="description-section">
-		<div class="section-title">Special Thanks</div>
+		<div class="section-title">The Environment</div>
 		<div class="section-detail">
-			We want to extend gratitude to Diana Cabrera from the NHL for clarifying the structure of the commentaries on their website as well as Tanisha Mitchell for helping us decide how to automate the data testing process.
+			For this project, I used OpenAIGym’s “BipedalWalker-v2” environment. This environment is simply robot body (hull) with two footless legs, and the goal of the environment is to build an AI for the bot so that it learns how to walk. The environment rewards the robot for moving forward, and punishes the robot for using up energy and falling over. Therefore, the robot must learn how to walk in the most efficient manner to gain the most rewards.			
+		</div>
+	</div>
+
+	<div class="description-section">
+		<div class="section-title">Creating the Neural Network</div>
+		<img class="project-img" style="float: right; width: 500px" src="img/bipedal-walker/Math.png">
+		<div class="section-detail">
+			For my neural network, I used 404akhan's model from the OpenAIGym website. Like other neural networks, this network initially assigns its synpatic weights randomly, but programatically chooses a wide range of weights. Then, the network observes the current state of the environment (angles, speed, and angular velocity of body parts; contact with ground), and decides what action it will take (i.e. how it will move its legs). In order to decide, the network does matrix multiplication with the current state and the models existing parameters. As part of this math, the network also uses the activation function to decide which action to complete. After completing an action, the network reevaluates the state and its own parameters and chooses a new action. This process repeats itself until time runs out or the bot falls over.
+			<br>
+			<br>
+			For this project, I used the exact same model every time. This means that all of the parameters of my neural network were initially set up in exactly the same way. The only difference between each model was in the activation function. The activation functions I used (and their graphs) can be seen in this image.
+
+		</div>
+	</div>
+
+	<div class="description-section">
+		<div class="section-title">Results</div>
+		<img class="project-img" style="float: left; width: 1000px; padding: 0%" src="img/bipedal-walker/All.png">
+		<div class="section-detail">
+			In order to easily understand the significance of the activation function, I used the "matplotlib" library to plot the robot's score as it ran more trials. As a network learns, it becomes more able to complete its task. Therefore, we would hope that each model would improve as it runs more trials, and since each model uses a different activation function, we would expect the learning rates of each model to be different in some way.
+			<br>
+			<br>
+			As evident in the graphs, different activation functions affect learning rate significantly. For example, the linear and hyperbolic tan functions learning very quickly, while other functions such as the softsign function to longer to start. However, once the network started increasing its score, it increased very rapidly for the following iterations. Soon, though, the score began leveling out again and network learned extremely slowly. 
+			<br>
+			<br>
+			In addition, some functions were more stable than others. After the last 200 iterations, the linear and softsign functions stay at around the same score, while the sigmoid and modified tan functions often make ‘jumps’ downward where the score gets much lower, before rising back to the plateau again. 
+			<br>
+			<br>
+			Lastly, each of the different functions achieved a different final score, ranging from 0 to 50. One might think, therefore, that those functions with higher final scores are ‘better’, but it is worth noting that each function also started with a different score. For example, the linear, sigmoid, and hyperbolic tan functions started with scores &lt100, while the softsign function started with a much higher score of -10. Those functions that started with lower scores ultimately made more progress, so it is difficult to determine which function is better.
+
+		</div>
+	</div>
+
+	<div class="description-section">
+		<div class="section-title">Conclusion</div>
+		<div class="section-detail">
+			Overall, my programs demonstrated why it is so difficult to create efficient neural networks. Not only do you have to try different base parameters, but the networks activation function can also affect learning rate significantly. Yet, even when I tested different functions, I still can discern no ‘winning’ function with great ease. In the real world, programmers typically don't retrain their networks a bunch of times to find the most efficient way to train it, since that in itself would be inefficient. In the future, it would be worth running each program for longer to see if any functions can make a surprise breakthrough that increases scores immensely, but for now, programmers will have to continue their random guessing when they create their networks.		
 		</div>
 	</div>
 

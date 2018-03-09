@@ -1,0 +1,131 @@
+<html>
+<head>
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+	<link rel="stylesheet" href="styles/styles.css">
+	<title>Programming 4 - The Style of Illusions </title>
+    <style type="text/css">
+
+.tab { margin-left: 40px; }
+
+         .vspace {
+     margin-bottom: 1mm;
+  }
+        
+    
+</style>
+</head>
+
+<body>
+	<!-- Home button -->
+	<a href="index.html"><img id="home" src="img/home.png" alt="Go back to the homepage"></svg></a>
+
+	<!-- -->
+	<div id="top">
+		<span id="title">Applying Style Transfer to Optical Illusions</span>
+		<div id="intro"> Making use of existing Fast Style Transfer Infrastructure (<a href="https://github.com/lengstrom/fast-style-transfer">Link to source code Repository)</a>, our main objective was to further understand how optical illusions are affected during style transfer. Is the illusion preserved? Does the illusion 'trick' the code? Can we apply an optical illusion 'style' onto a content image?</div>
+	</div>
+
+	
+ <div class="description-section">
+		<div class="section-title">Source Code</div>
+		<img class="project-img" style="float: right; width: 600; height:350px;" src="CoverDiagram.jpg">
+		<div class="section-detail">
+			The code linked in the description uses a Convolutional Neural Network that, unlike the traditional Style Transfer optimization-based method presented in Gatys et al., stylizes images hundreds of times faster with the use of instance normalization <a href="https://arxiv.org/abs/1607.08022"> Whose implementation is further explained in this paper)</a>. The code also uses a loss function "close to the one described in Gatys ... and typically using "shallower" layers" (they usedrelu1_1 rather than relu1_2). The faster run times and empirically "larger scale style features in transformations" was an ideal starting point for investigating quickly how optical illusions react to style transfer.
+
+            
+	
+       
+    
+    	<div class="description-section">
+		<div class="section-title">Style Transfer Run Time vs. Image Size</div>
+		<img class="project-img" style="float: right; width: 600px; height:400px;" src="Cat4k.jpg">
+        <img class="project-img" style="float: right; width: 600px; height:500px;" src="GraphRunTimeImgSize.jpg"> 
+        
+
+            <p class="vspace">
+   Fast Style Transfer Code Metrics:
+</p>
+           
+            <br>
+            
+       
+            <p class="tab">Batch Time: ~21 seconds (depending on transfer image size)</p>
+          
+
+
+        
+		<div class="section-detail">
+			- This graph shows the run times of transferring 5 images at differing resolutions (240[, 480p, 720p, 1080, 2160p) into the "wave" style. The original picture was resized using Microsoft Paint to fit each resolution.
+			- From 240p to 1080p, the run time vs. image size relationship is largely linear (see displayed equation and r^2 value). However, once a 2160p image is processed, most commerical grade computers (this simulation was run on a PC) have to utilize all available memory to process the image. For this reason, our group stuck with content images whose resolutions lie far below the spike in run time present after 1080p.
+            
+            
+		</div>
+	</div>
+
+
+		</div>
+	</div>
+<br>
+<br>
+	<div class="description-section">
+		<div class="section-title">What we did</div>
+		<img class="project-img" style="float: right; width: 500px; height:100px;" src="EvalMultiCode.jpg">
+		<div class="section-detail">
+			In order to investigate how style transfer affects the operating mechanisms behind optical illusions, we chose 3 still images of optical illusions to apply 6 different styles to (La Muse, Scream, The Shipwreck of the Minotaur, Udnie, Wave, and Rain Princess, respectively. We wrote code to automate this process, and it, along with our other optimizations, areavailable at(<a href="https://github.com/carsonprindle/IllusionStyleTransfer"> our github repository.)</a>
+			  <br>
+			    <br>
+			Additionally, we looked into training a model based upon our first illusion below, where instead of a style being applied to the content of an optical illusion, it would be the style of an optical illusion superimposed onto the content of any image. We hypothesized that imposing the style of an optical illusion where straight lines are made to seem curvy might onto a geometric picture (like many of Piet Mondrian's paintings) might challenge the grid-like structure of the painting. Unfortunately, due to power outages and lack of access to dedicated computer to process this training for 10 or more hours, we were unable to fully train a new model succesfully.
+  <br>
+    <br>
+			We also looked into implementing masked style transfer like the kind implemented(<a href="https://github.com/titu1994/Neural-Style-Transfer"> here)</a>. However,  generating masks and using them concurrently with style transfer as a post-processing routine became impractical due to the incompatibility of the two source codes. We couldn't use our generated checkpoint files from our source code to use the styles we wanted along with the Masked Transfer post-processing commands that the linked repository made use of. Additionally, the efficiency of this code at style transfer doesn't touch the speed of our source code (its first pre-processing style transfer iteration, of which there are ten, took just under 30 minutes for a medium-sized 600 by 700 pixel image). 
+
+            
+			<br>
+			
+		</div>
+	</div>
+
+	<br>
+	<br>
+    
+    <div class="description-section">
+		<div class="section-title">Results and Conclusions</div>
+   <div class="section-detail">
+   		<img class="project-img" style="float: left; width: 200px; height:130px;" src="RipDotsRaw.jpg">
+        <img class="project-img" style="float: middle; width: 500px; height:320px;" src="RipplingDots1.jpg">
+        <img class="project-img" style="float: right; width: 500px; height:320px;" src="RipplingDots2.jpg">
+        <br>
+        <br>
+        What's clear here is that, although the optical illusion is entirely overwritten by the style transfer, the operating mechanism of the optical illusion becomes clear. The overlayed white and black spots on the dots of the original are oriented in a spiral pattern that contributes to an outward rippling effect. The style transfer visualizes the 'ripple' that is only apparent in our periphery when we look at the original, sort of like how magnetic viewing film visualizes magnetic fields.
+
+        <img class="project-img" style="float: left; width: 200px; height:130px;" src="BendLinesRAW.jpg">
+        <img class="project-img" style="float: middle; width: 500px; height:320px;" src="BendingLines1.jpg">
+        <img class="project-img" style="float: right; width: 500px; height:320px;" src="BendingLines2.jpg">
+         <br>
+        <br>
+
+        This was one of the most interesting results of our testing. The lines in the original are straight lines, but we perceive them to be bent due to the color gradients and asymetrical shapes of the black and white blocks. The wave style found difficulty in displaying these straight lines (as th style is entirely composed of spiraling wave patterns), yet the colorful rain princess style, with no distinct lines in it had no problem emulating the illusion. La_Muse, despite having a geometric construction, blurred the lines entirely.
+         <img class="project-img" style="float: left; width: 200px; height:130px;" src="CircleSquareRAW.jpg">
+        <img class="project-img" style="float: middle; width: 500px; height:320px;" src="CirclesSquares1.jpg">
+        <img class="project-img" style="float: right; width: 500px; height:320px;" src="CirclesSquares2.jpg">
+ <br>
+        <br>
+        The Circle/Square illusion was similarly fascinating. The only two styles where I can't see the illusion are Wave and Rain Princess. Perhaps wave, as mentioned above, is constructed strictly out of curved lines and spirals, and while the inner circle is easily constructed out of those sprials, the periphereal rectangles, with hard 90 degree angles are not. Regardless, this illusion, for some reason seemed most comfortably preserved after all 6 style transfers.
+   	</div>
+	</div>
+<br>
+<br>
+
+<div class="description-section">
+		<div class="section-title">Next Steps</div>
+   <div class="section-detail">
+   		Given more time with the code, we would want to train a new style based off of a range of different classes of still-frame optical illusions. Additionally, we could make try and implement masked transfer into our source code and could even create our own "masks", seeing as it is just an image with the same dimensions as the content image composed of entirely black or white pixels. This could be useful in demonstrating a gradient between components of an image exposed to illusion style transfer and not, and could expose exactly where the mechanism of the illusion takes place (whether a depth illusion, a perception of movement or of curvature when there is none). The immediate next steps would be to allocate time to creating a new style that we can impose on content images that could be particularly affected by certain illusions. For example, a perspective photograph of a street corner could hypothetically be the perfect environment for depth-based optical illusion.
+
+
+   	</div>
+	</div>
+     
+
+
+</body>
+</html>

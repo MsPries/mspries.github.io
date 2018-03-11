@@ -1,0 +1,87 @@
+<html>
+<head>
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+	<link rel="stylesheet" href="styles/JZSstyle.css">
+	<title>Programming 4 - $YOUR_TITLE</title>
+</head>
+
+<body>
+	<!-- Home button -->
+	<a href="index.html"><img id="home" src="img/home.png" alt="Go back to the homepage"></svg></a>
+
+	<!-- Your project title and intro go here. Choose a catchy and descriptive title
+	and write a one or two sentence intro about what makes your project cool. -->
+	<div id="top">
+		<span id="title">The Effect of Image Transformations on Style Transfer</span>
+		<div id="intro">Using Cloudinary, an image editing api, we transformed the contrast, blur, brightness, tint, and other aspects of a variety of different images. We then passed these images through a style transfer networks and observed the array of fascinating results brought about by the image transformations. [Scott wrote this]</div>
+	</div>
+
+	<!-- Use the these sections as templates for reporting your process and results. Use
+	as many sections as you need to concisely describe your project - I encourage you to
+	use the project rubric as a guide for sections. Feel free to use images or link to your
+	GitHub repo, research papers you read, etc. Keep the class attributes on the divs to
+	keep your styling consistent (or change them, if you'd like!). -->
+	<div class="description-section">
+		<div class="section-title">Image Choices</div>
+		<div class="section-detail">
+			We selected photographs that had a variety of different subject matters and colors. Some, for example the maple and fire image, were selected to see how the neural network would handle photos of predominantly the same color and whether the neural network could distinguish between small details, despite the same color. The rainbow was selected for the opposite reason to see how the neural network might style-transfer differently for various colors, despite their having the same texture and content. [Jessica wrote this]
+
+		</div>
+	</div>
+
+	<div class="description-section">
+		<div class="section-title">Image Transformations</div>
+		<div class="section-detail">
+			Mention all the transformations we chose to use (and why), as well as the different percentages we chose (and why). [Zac should write this]
+		</div>
+	</div>
+
+	<div class="description-section">
+		<div class="section-title">Style Transfer Network</div>
+		<div class="section-detail">
+			Breifly talk about the network we chose to use. [Scott will write this]
+		</div>
+	</div>
+
+	<div class="description-section">
+		<div class="section-title">Observations</div>
+		<div class="subsection-title">Blur</div>
+		<div class="section-detail">
+			We observed minimal difference in the original photos when blur was increased and very little difference in the photos after style transfer. 
+		</div>
+		<br>
+		<div class="subsection-title">Brightness</div>
+		<div class="section-detail">
+			In general, brighter spots in photos seemed to turn into one particular part of the scream style after the style transfer -- specifically the red wave section.<br><br>In the rainbow, as the brightness percentage increased, a bright spot in the middle of the image appeared. After the style transfer, the bright spot transformed into red waves, perhaps indicating a correlation between brightness and the particular red wave portion of that style.<br><br>On the other hand, in even brighter photos such as the skyline, the brighter sections appeared to transform into a matte red/brown color. Perhaps a reasonable conclusion would be that pictures of medium brightness correlate with the red -wave style while pictures of much greater brightness that are almost white correlate with a matte red/brown color. 
+		</div>
+		<br>
+		<div class="subsection-title">Contrast</div>
+		<div class="section-detail">
+			We observed minimal difference in the original photos when contrast was increased and very little difference in the photos after style transfer. Even in the maple photo where one would expect a greater contrast in the colors would result in a better style-transfer as the leaves would be more easily distinguishable from each other, we observed little difference in the photos as contrast increased. 
+		</div>
+		<br>
+		<div class="subsection-title">Saturation</div>
+		<div class="section-detail">
+			We observed minimal difference in the original photos when contrast was increased and very little difference in the photos after style transfer. 
+		</div>
+		<br>
+		<div class="subsection-title">Sepia</div>
+		<div class="section-detail">
+			Overall, a minimal sepia modification appeared to make the photograph mostly yellow and a greater sepia modification made the photographs have a brown/red tint.<br><br>While the sepia modifications of lower percentages ended up creating an overall yellow filter and ended up erasing details in the photograph, the style transfer appeared to pick up the subtle contrasts in the photo and emphasized some details that were lost in the original sepia modification.<br><br>For example, while the original baby sepia of 10% appeared to be mostly yellow, the style-transfer seemed to pick up on a greater contrast between the colors and brought out the shadows in the blanket behind the baby. On the other hand, in the original photo, the entire photo appears to be mostly yellow and the blanket is barely distinguishable. In this case, the style-transfer seems to preserve details and pick up on a contrast that are barely even visible in the original photograph.
+		</div>
+		<br>
+		<div class="subsection-title">Tint</div>
+		<div class="section-detail">
+			As tint increases, the photos appear to increase in their reddish tint. As the red in the photo increases, the red portions seem increase in resemblance to the scream style as they develop more of a wave texture. 
+		</div>
+	</div>
+
+	<div class="description-section">
+		<div class="section-title">Conclusion</div>
+		<div class="section-detail">
+			Somebody needs to write a conclusion that summarizes our findings.
+		</div>
+	</div>
+
+</body>
+</html>

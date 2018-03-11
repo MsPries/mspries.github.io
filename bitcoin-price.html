@@ -1,0 +1,83 @@
+<html>
+<head>
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+	<link rel="stylesheet" href="styles/styles.css">
+	<title>Programming 4 - The Mystery of Bitcoin’s Price</title>
+</head>
+
+<body>
+	<!-- Home button -->
+	<a href="index.html"><img id="home" src="img/home.png" alt="Go back to the homepage"></svg></a>
+
+	<!-- Your project title and intro go here. Choose a catchy and descriptive title
+	and write a one or two sentence intro about what makes your project cool. -->
+	<div id="top">
+		<span id="title">The Mystery of Bitcoin’s Price</span>
+		<div id="intro">Correlating the erratic changes in Bitcoin’s price with sentiments expressed on reddit</div>
+	</div>
+
+	<!-- Use the these sections as templates for reporting your process and results. Use
+	as many sections as you need to concisely describe your project - I encourage you to
+	use the project rubric as a guide for sections. Feel free to use images or link to your
+	GitHub repo, research papers you read, etc. Keep the class attributes on the divs to
+	keep your styling consistent (or change them, if you'd like!). -->
+	<div class="description-section">
+		<div class="section-title">Abstract</div>
+		<div class="section-detail">
+			The machine learning techniques that we used - Bag of Words and LSTM Recurrent Neural Networks - were unable to predict changes in Bitcoin price based on reddit post sentiments. This result indicates either that reddit posts do not reflect changes in Bitcoin price, or that our language analysis models were not sophisticated enough to find any existing correlation.
+		</div>
+	</div>
+
+	<div class="description-section">
+		<div class="section-title">Bitcoin Data Background</div>
+		<div class="section-detail">
+			Our project combined data from two very different sources. Our first data source was the historical price of Bitcoin between 2011 and 2017. Bitcoin is an online, digital currency that handles transactions without a central government or bank. To learn more about Bitcoin, we chatted with Ben Yu, an expert on cryptocurrencies and the CEO of <a href=”https://streamtoken.net/”>Stream</a>, a decentralized video-streaming platform. Ben explained to us how the limited number of Bitcoins in circulation makes it possible for the price to rise rapidly. We also discussed the many factors that affect Bitcoin’s price, such as banks, governments, and communities. Banks and governments can impose regulations that make people less interested in investing in Bitcoin, leading to drops in its price, and large communities often hype up Bitcoin, leading to spikes in its price.			
+		</div>
+	</div>
+
+	<div class="description-section">
+		<div class="section-title">Reddit Data Background</div>
+		<div class="section-detail">
+			Because of the variety of factors affecting the price of Bitcoin, it can fluctuate wildly from week to week, day to day, or even minute to minute. To try to better understand the fluctuations in the price of Bitcoin—and eventually predict whether it will go up or down—we analyzed posts on reddit.com, an online forum where users can make submissions on a variety of subjects. For our project, we downloaded all submissions in the Bitcoin subreddit (reddit.com/r/Bitcoin) from 2011 to 2017 (to match with our Bitcoin price data). We used reddit’s official API and were sure to follow all of their usage guidelines as we aggregated the data.			
+		</div>
+	</div>
+
+	<div class="description-section">
+		<div class="section-title">Bringing All the Data Together</div>
+		<div class="section-detail">
+			We looked at two different relationships between reddit posts and Bitcoin price. Firstly, We tried to determined if reddit posts reflected changes in Bitcoin’s price days or weeks before. We then investigated if it would be possible to predict future changes in Bitcoin’s price with sentiments expressed beforehand on reddit. For both of these relationships, we tested multiple different time periods: for example, correlating reddit posts with Bitcoin prices from one hour, day, or week later/before.
+		</div>
+	</div>
+
+	<div class="description-section">
+		<div class="section-title">Bag of Words</div>
+		<img class="project-img" style="float: right; width: 400px" src="https://i.stack.imgur.com/1bCQl.png">
+		<div class="section-detail">
+			Once we had our Bitcoin and reddit data, we first used a bag of words model to look for a correlation in our data. Bag of words models attempt to separate each word in a data point (in our case, a reddit post) into a list of words (like a “bag”), so that each word carries meaning with respect to the overall reddit post. This model, however, doesn’t preserve order between words—meaning that the network will not recognize complex ideas that span many words. We used this bag of words model along with a simple deep neural network, a common machine learning model, to try to predict simply if the price of Bitcoin would go up or down.
+		</div>
+	</div>
+
+	<div class="description-section">
+		<div class="section-title">Recurrent Neural Network</div>
+		<div class="section-detail">
+			After finding no correlation with our bag of words model, we decided to up the ante with an LSTM dynamic recurrent neural network. Unlike a bag of words, an RNN allows us to input words in order. Despite being more advanced than our other model, the RNN interestingly also found no correlation between the reddit posts and Bitcoin Price. Both models’ predictions never exceeded 50 percent accuracy, meaning their guesses were essentially random.
+		</div>
+	</div>
+
+	<div class="description-section">
+		<div class="section-title">Team Organization</div>
+		<div class="section-detail">
+			To keep our team organized, we utilized a variety of different resources. Firstly, we created a channel on Slack for general communications, where we shared ideas and useful articles. Secondly, we used Trello, an online bulletin board, to designate tasks and track progress. Lastly, we set up a Github repository to easily collaborate and keep track of all versions of our code.
+		</div>
+	</div>
+
+	<div class="description-section">
+		<div class="section-title">Future Plans</div>
+		<img class="project-img" style="float: right; width: 300px" src="https://tr3.cbsistatic.com/hub/i/r/2017/02/22/a69a505b-7ad5-43cf-a24a-950c06de1156/resize/770x/eaa50de84d2f8794e544a764d44bc7a9/nvidiacloud.jpg">
+		<div class="section-detail">
+			With more time, we could have refined our existing models and explored new ones. Most importantly, we found that our own computers were insufficient to run advanced neural networks for extended periods of time. Therefore, we could have run our programs on NVIDIA’s GPU Cloud, an online service allowing users to run GPU-intensive tasks for free. This service would have allowed us to train our networks for longer and on larger amounts of data. Furthermore, we could have analyzed other websites or social media platforms to see if they correlated to Bitcoin Price in any way. In addition, we could have made our networks more advanced by guessing not only if the price of Bitcoin would go up or down, but also to what degree.
+		</div>
+	</div>
+
+</body>
+</html>

@@ -207,7 +207,7 @@ th {
 	background-image: url(./img/judy.jpg);
 }
 
-#secret_code {
+.secret_code {
 	width: 95%;
 }
 

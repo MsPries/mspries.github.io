@@ -8,10 +8,10 @@ Just make sure you're doing it on purpose. There are comments to title each sect
 
 If you want to make your own page look different, either define styles for specific
 ids or define new classes. You can do that in this file or in another CSS file that
-you include in the head of your HTML file. You will need to modify your HTML page 
+you include in the head of your HTML file. You will need to modify your HTML page
 either way to utilize the new classes you define.
 
-See Ms. Pries if you have any questions! 
+See Ms. Pries if you have any questions!
 *********************************************/
 
 /* General body styling */
@@ -46,7 +46,7 @@ a {
 	color: #BAD1CD;
 }
 a:hover{
-	color: #DEE0E5;	
+	color: #DEE0E5;
 }
 
 /* Project gallery styling for title page */
@@ -80,7 +80,7 @@ a:hover{
 	background-color: #1C1649;
 	color: #BAD1CD;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-	height: 330px;
+	height: 350px;
 	padding: 8px;
 }
 .project:hover{

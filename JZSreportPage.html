@@ -1,0 +1,210 @@
+
+<!--
+	Caminar by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>Programming 4 - The Effect of Image Transformations on Style Transfer</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="styles/JZSstyle.css">
+	</head>
+	<body>
+		<!-- Home button -->
+		<a href="index.html"><img id="home" src="img/home.png" alt="Go back to the homepage"></svg></a>
+		<!-- Header -->
+			<header id="header">
+				<div class="logo"><a href="#">Image Transformation's Effect on Style Transfer <span>by SCOTT CRAWSHAW, ZAC MUSTIN, JESSICA WANG</span></a></div>
+			</header>
+
+		<!-- Main -->
+			<section id="main">
+				<div class="inner">
+				<!-- one -->
+					<section id="one" class="wrapper style1">
+						<header class="special">
+							<h2>Introduction</h2>
+						</header>
+						<div class="content">
+							<p>Our group set out to determine how the stylistic elements of a photograph would affect the success of style transfer. First, we collected an assortment of different images. Then, using an image editing API called "Cloudinary", we increased the contrast, blurriness, brightness, saturation, sepia, and red tint on each image in increments of 10%. We then passed these images through a style transfer neural network using the style of Edvard Munch's "The Scream". We compiled these images into a <a href="https://github.com/SCrawshaw18/JZSstyletransfer/tree/master/results">gallery</a> and observed the results, noting the impact of transformations on the style transfer.</p>
+							
+						</div>
+					</section>
+				<!-- Two -->
+					<section id="two" class="wrapper style2">
+						<header>
+							<h2>Image Choices</h2>
+							<p>We selected photographs that had a variety of different subject matters and colors. Some, like the maple, desert, and fire image, were selected to see how the neural network would handle photos of predominantly the same color and whether the neural network could distinguish between small details, despite the same coloration. The rainbow was selected for the opposite reason in order to observe how the neural network might style-transfer differently for various colors, despite their having the same texture and content. We also ensured that our photos had a variety of content, from cars and skylines to animals and humans, in order to determine the impact of content on style transfer.</p>
+						</header>
+						<div class="content">
+							<div class="gallery">
+								<div>
+									<div class="image fit flush">
+										<a href="img/JZSstyletransfer/fire.jpg"><img src="img/JZSstyletransfer/fire.jpg" alt="" /></a>
+									</div>
+								</div>
+								<div>
+									<div class="image fit flush">
+										<a href="img/JZSstyletransfer/maple.jpg"><img src="img/JZSstyletransfer/maple.jpg" alt="" /></a>
+									</div>
+								</div>
+								<div>
+									<div class="image fit flush">
+										<a href="img/JZSstyletransfer/rainbow.jpg"><img src="img/JZSstyletransfer/rainbow.jpg" alt="" /></a>
+									</div>
+								</div>
+								<div>
+									<div class="image fit flush">
+										<a href="img/JZSstyletransfer/desert.jpg"><img src="img/JZSstyletransfer/desert.jpg" alt="" /></a>
+									</div>
+								</div>
+								<div>
+									<div class="image fit flush">
+										<a href="img/JZSstyletransfer/baby.jpg"><img src="img/JZSstyletransfer/baby.jpg" alt="" /></a>
+									</div>
+								</div>
+								<div>
+									<div class="image fit flush">
+										<a href="img/JZSstyletransfer/skyline.jpg"><img src="img/JZSstyletransfer/skyline.jpg" alt="" /></a>
+									</div>
+								</div>
+								<div>
+									<div class="image fit flush">
+										<a href="img/JZSstyletransfer/hockey.jpg"><img src="img/JZSstyletransfer/hockey.jpg" alt="" /></a>
+									</div>
+								</div>
+								<div>
+									<div class="image fit flush">
+										<a href="img/JZSstyletransfer/tiger.jpg"><img src="img/JZSstyletransfer/tiger.jpg" alt="" /></a>
+									</div>
+								</div>
+								<div>
+									<div class="image fit flush">
+										<a href="img/JZSstyletransfer/construction.jpg"><img src="img/JZSstyletransfer/construction.jpg" alt="" /></a>
+									</div>
+								</div>
+								<div>
+									<div class="image fit flush">
+										<a href="img/JZSstyletransfer/car.jpg"><img src="img/JZSstyletransfer/car.jpg" alt="" /></a>
+									</div>
+								</div>
+								<div>
+									<div class="image fit flush">
+										<a href="img/JZSstyletransfer/stadium.jpg"><img src="img/JZSstyletransfer/stadium.jpg" alt="" /></a>
+									</div>
+								</div>
+								<div>
+									<div class="image fit flush">
+										<a href="img/JZSstyletransfer/protest.jpg"><img src="img/JZSstyletransfer/protest.jpg" alt="" /></a>
+									</div>
+								</div>
+								<div>
+									<div class="image fit flush">
+										<a href="img/JZSstyletransfer/dog.jpg"><img src="img/JZSstyletransfer/dog.jpg" alt="" /></a>
+									</div>
+								</div>
+								<div>
+									<div class="image fit flush">
+										<a href="img/JZSstyletransfer/dice.jpg"><img src="img/JZSstyletransfer/dice.jpg" alt="" /></a>
+									</div>
+								</div>
+								<div>
+									<div class="image fit flush">
+										<a href="img/JZSstyletransfer/beach.jpeg"><img src="img/JZSstyletransfer/beach.jpeg" alt="" /></a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<!-- three-->
+					
+					<section id="three" class="wrapper style1">
+
+						
+						<header class="special">
+							<h2>Style Transfer Network</h2>
+						</header>
+						<div class="content">
+							<p>We chose to use a <a href="https://github.com/lengstrom/fast-style-transfer">Tensorflow based Convolutional Neural Network</a> designed for fast style tranfer. This network had pretrained style models, allowing us to skip the arduous process of training a whole new model. Additionally, this network was quick, allowing us to stylize almost a thousand images in a little under two hours. We were able to edit some functions in the network to allow for programatic access to the evaluation file, rather than the default command line only accessibility. This let us create a python program that performed all the image transformations and style transfer automatically.</p>
+							
+						</div>
+					</section>
+
+				<!-- four -->
+					<section id="four" class="wrapper">
+						<div class="spotlight alt">
+							<div class="image flush"><img src="img/JZSstyletransfer/protest_final.jpeg" alt="" /></div>
+
+					
+							<div class="inner">
+								<h3>Blur</h3>
+								<p>Generally, we noticed that an increase in blur had very little impact on the result of the style transfer. However, this was unsuprising, for even 100% blurriness had little impact on the actual image. On the right, we see the real version of the image next to the blurry version of the image. Below them are the stylized versions of the two images. Can you even notice a difference?</p>
+							</div>
+						</div>
+						<div class="spotlight">
+							<div class="image flush"><img src="img/JZSstyletransfer/rainbow_skyline.jpeg" alt="" /></div>
+							
+							
+							<div  class="inner">
+								<h3>Brightness</h3>
+								<p>In general, brighter spots in photos seemed to turn into one particular part of the scream style after the style transfer -- specifically the red wave section.</p>
+								<p>In the rainbow, as the brightness percentage increased, a particularly bright spot in the middle of the image appeared. After the style transfer, the bright spot transformed into red waves, perhaps indicating a correlation between brightness and the particular red wave portion of the Scream.</p>
+								<p>On the other hand, in even brighter photos such as the skyline, the brighter sections appeared to transform into a matte red/brown color. Perhaps a reasonable conclusion would be that pictures of medium brightness correlate with the wave style, while pictures of much greater brightness correlate with a matte red/brown color.</p>
+							</div>
+						</div>
+						<div class="spotlight alt">
+							<div class="image flush"><img src="img/JZSstyletransfer/maple_final.jpeg" alt="" /></div>
+							
+							<div class="inner">
+								<h3>Contrast</h3>
+								<p>We observed minimal difference in the original photos when contrast was increased and even less difference in the photos after style transfer. Even in the maple photo, where one would expect a greater contrast in the colors to result in a better style-transfer (as the leaves would be more easily distinguishable from each other), we observed little difference in the stylized photos as contrast increased. Displayed are the stylizations of the low contrast and high contrast versions of the maple photo.</p>
+							</div>
+						</div>
+						<div class="spotlight">
+							<div class="image flush"><img src="img/JZSstyletransfer/hockeyfin.jpg" alt="" /></div>
+							<div  class="inner">
+								<h3>Saturation</h3>
+								<p>We observed little difference in the original photos when saturation was increased, and naturally, very little difference in the photos after style transfer. Displayed are the original and stylized versions of the high saturation and low saturation hockey photos, both of which look nearly identical.</p>
+							</div>
+						</div>
+						<div class="spotlight alt">
+							<div class="image flush"><img src="img/JZSstyletransfer/babys.jpg" alt="" /></div>
+							<div class="inner">
+								<h3>Sepia</h3>
+								<p>Overall, a minimal sepia modification appeared to make the photograph mostly yellow and a greater sepia modification made the photographs have a brown/red tint.</p>
+								<p>Additionally, the sepia modifications of lower percentages ended up creating an overall yellow filter and erasing details in the photograph. However, higher levels of sepia allowed the style transfer to pick up the subtle contrasts in the photo and emphasize some details that were lost in the lower sepia modification.</p>
+								<p>For example, while the baby sepia of 100% appeared to be rather yellow, the style-transfer seemed to pick up on a greater contrast between the colors and brought out the shadows in the blanket behind the baby. On the other hand, with 10% sepia, the entire photo appears to be mostly yellow and the baby is barely discernable. In this case, a greater sepia transformation allowed the style-transfer to preserve details and pick up on more contrast.</p>
+								<p>The creepy photo of the baby was the low sepia version, while the beautiful photo is the high sepia version. The positive impact of sepia was truly astounding.</p>
+							</div>
+						</div>
+						<div class="spotlight">
+							<div class="image flush"><img src="img/JZSstyletransfer/beachtints.jpg" alt="" /></div>
+							<div  class="inner">
+								<h3>Red Tint</h3>
+								<p>As the red tint increases, the photos are filtered with a reddish color. This causes the style transfer to apply the wave feature to more areas of the photo, suggesting that waves are directly correlated with the color red. This makes sense, as the waves in the scream are mostly reddish. This would imply that the style features in the network are actually accosiated with color. The top photo is a non-tinted version of the beach photo, while the bottom photo is a highly red-tinted version of the photo. The wave feature appears far more frequently in the red tinted photo.</p>
+							</div>
+						</div>
+					</section>
+
+				</div>
+			</section>
+
+		<!-- Footer -->
+			<footer id="footer">
+				<div class="container">
+					
+				</div>
+				
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.poptrox.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

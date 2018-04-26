@@ -1,0 +1,204 @@
+<html>
+<head>
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+	<link rel="stylesheet" href="styles/styles.css">
+	<title>Programming 4 - NBA Predictor</title>
+</head>
+
+<body>
+	<!-- Home button -->
+	<a href="index.html"><img id="home" src="img/home.png" alt="Go back to the homepage"></svg></a>
+
+	<!-- Your project title and intro go here. Choose a catchy and descriptive title
+	and write a one or two sentence intro about what makes your project cool. -->
+	<div id="top">
+		<span id="title">NBA Predictor</span>
+		<div id="intro">Predicting the winner of the next NBA game from 2012-2017 by Jimmy DeLano</div>
+	</div>
+
+	<!-- Use the these sections as templates for reporting your process and results. Use
+	as many sections as you need to concisely describe your project - I encourage you to
+	use the project rubric as a guide for sections. Feel free to use images or link to your
+	GitHub repo, research papers you read, etc. Keep the class attributes on the divs to
+	keep your styling consistent (or change them, if you'd like!). -->
+	<div class="description-section">
+		<div class="section-title">Overview and Goals</div>
+		<img class="project-img" style="float: right; width: 70px" src="nba0.png">
+
+		<div class="section-detail">
+			
+			For this project, I aimed to create a program that could predict the winner of an NBA game based off a variety of team and player statistics leading up to each game. My baseline goal for the model was to have more than 50% accuracy -- essentially, I wanted a model that was better than flipping a coin. However, I knew that NBA home teams win about 60% of their games, so my secondary goal was to create a model more effective than just picking the home team to win every time. After those two goals, I wanted to keep tinkering with featuring engineering and testing out different types of models and hyperparameters to achieve the best possible result in the timeframe for the project. I&apos;ll break down my work in this report, and you can follow along with my github repo here:
+			<a href="https://github.com/jdelano18/nba"> https://github.com/jdelano18/nba</a>.
+		</div>
+	</div>	
+
+	<div class="description-section">
+		<div class="section-title">Data</div>
+		<div class="section-detail">
+			I used several datasets for this project. The main data sources came from someone who used Jae Bradley&apos;s repo 
+			<a href="https://github.com/jaebradley/basketball_reference_web_scraper">(https://github.com/jaebradley/basketball_reference_web_scraper)</a>
+			that scraped 
+			<a href="https://www.basketball-reference.com/">https://www.basketball-reference.com/</a>
+			, a website that aggregates and stores all sorts of NBA statistics. Using this repo, three datasets were created: 2012-2017 box scores, 2012-2017 schedules, and 2012-2017 season player stats. 
+			<br>
+
+			<br>
+			The box scores dataset recorded information about each player&apos;s statistics from every game.
+			<br>
+
+			<img style = "float: center; width: 500px" src="nba1.png">
+			<br>
+			
+			<br>
+			The schedules dataset recorded the date, score, and home/away team from every game.
+			<br>
+
+			<img style = "float: center; width: 500px" src="nba2.png">
+			<br>
+
+			<br>
+			The season player stats dataset recorded the season end statistics for each player. Since I was originally interested in using players&apos; stats leading up to games rather than the year end totals, I never ended up using this dataset. 
+			<br>
+
+			<img style = "float: center; width: 500px" src="nba3.png">
+			<br>
+
+			<br>
+			Finally, I found a .json file with both NBA teams&apos; names and abbreviations since I needed to standardize the type way teams were identified between the box scores and schedules datasets. 
+			<br>
+
+			<img style = "float: center; width: 500px" src="nba4.png">
+			<br>
+		</div>
+	</div>
+	<div class="description-section">
+		<div class="section-title">Methodology</div>
+		<div class="section-detail">
+			I used the <q>get_starters,</q> <q>get_previous_wins,</q> and <q>get_player_to_date_stats</q> methods to gather and create parameters to feed into my models. The <q>get_starters</q> method returns names of 5 players with the most playing time on each team for any game from the box scores dataset. The <q>get_previous_wins</q> method returns a slew of different parameters from the schedules dataset. I started with features looking at winning and losing streaks as well as a team&apos;s success versus another team during a season&apos;s series. However, I ended up creating other parameters like home and away winning percentages and various statistics about points scored and given up. Finally, the <q>get_player_to_date_stats</q> method returns various statistics (like rebounds, assists, three point percentage, etc.) from a specific game. I used the players returned from the get_starters method as inputs into this method.
+			<br>
+
+			<br>
+			For all the games in the schedules dataset, I aggregated about 30 different parameters in the game_dict dictionary. I converted this data type into a pandas dataframe, so I could use various scikit learn classification models. 
+			<br>
+
+			<br>
+			<img style = "float: center; width: 500px" src="nba5.png">
+			<br>
+
+			<br>
+			The code for this part of the process is actually quite simple. The model can be created simply by feeding in the testing and training data as an array-like object. I fed in all the features I created in this first round, and created a variable called &apos;home_won&apos; as my target variable. My first model was scikit learn&apos;s DecisionTreeClassifier. I&apos;m not exactly sure how each model works, but I chose it because it&apos;s the simplest classification technique where, each time it receives an answer, a follow up question is asked of the model:					
+			<br>
+
+			<br>
+			<img style = "float: center; width: 500px" src="nba6.jpg">
+			<br>
+
+			<br>
+			The model returns its results as a confusion matrix. In this case, the top left value represents the times when the home team lost, and the model correctly predicted that the home team lost. The top right value represents the times when the home team lost, but the model incorrectly predicted that the home team won. The bottom left value represents the times when the home team won, but the model incorrectly picked that the home team lost. Finally, the bottom right value represents the times when the home team won, and the model correctly predicted that the home team won. 
+			<br>
+
+			<br>
+			<img style = "float: center; width: 500px" src="nba7.png">
+			<br>
+
+			<br>
+			However, this confusion matrix also supports the fact that home teams win 58% of the time. In other words, if I simply picked that the home team would win every time, I would have made a better model.
+			<br>
+
+			<br>
+			Hoping to improve my accuracy score, I looked into all the different hyperparameters that a DecisionTreeClassifier can take in. I was overwhelmed by all the options for the hyperparameters, and, frankly, I didn&apos;t know what a lot of them meant. So I used this parameter estimator called GridSearchCV, a scikit learn function. The grid search method takes in scikit-learn model, a dictionary of parameters, and the number of cross-validation attempts. It simulates the DecisionTreeClassifier with every possible permutation of the parameters entered and finds the best combination. 
+			<br>
+
+			<br>
+			<img style = "float: center; width: 500px" src="nba8.png">
+			<br>
+
+			<br>
+			This new DecisionTreeClassifier now had a 65.2% accuracy. This change turned out to be the single biggest improvement to my model. I spend the next week and a half feature engineering, creating and removing various statistics that fed into the model. However, all this work only made my model about .4% more accurate. I&apos;ll get into this more in the results section.
+			<br>
+
+			<br>
+			<img style = "float: center; width: 500px" src="nba9.png">
+			<br>
+
+			<br>
+			Finally, I just tried to use different classification techniques besides the DecisionTreeClassifier. The best results came from using the LogisticRegression model (I also tried RandomForestClassifier and AdaBoostClassifier). This immediately produced between 66%-69% accuracy when I ran it multiple times. I tried running GridSearchCV for the different hyperparameters for LogisticRegresssion; however, this classification method had many incompatible combinations where certain hyperparameters couldn&apos;t exist when others were inputted into the model. 
+			<br>
+
+			<br>
+			<img style = "float: center; width: 500px" src="nba10.png">
+
+		</div>
+	</div>
+
+
+<div class="description-section">
+		<div class="section-title">Results</div>
+		<div class="section-detail">
+			My very first model used features that related to the momentum of a particular team. I looked at how a team faired to another team for the whole season, and how that team had performed in the previous games. My next iteration of new parameters added a lot of player statistics, such as the points per game, assists per game, and rebounds per game. However, many of these parameters held little to no importance to the model and could be dropped out. I then came up with other statistics to predict the games. I added up to 30 features at one point, and my most accurate model used the following features:			<br>
+
+			<img style = "float: center; width: 500px" src="nba11.png">
+			<br>
+
+			<br>
+			I&apos;m not exactly sure why certain player statistics eventually had to be dropped out of the model, but results seem almost trivial. The most important parameter to the model was a variable called &apos;win_percent_difference_home&apos; (a bit of a misnomer that I forgot to correct). This was simply the home team&apos;s total winning percentage minus the away team&apos;s winning percentage. 
+			<br>
+
+			<br>
+			<img style = "float: center; width: 500px" src="nba12.png">
+			<br>
+
+			<br>
+			The confusion matrix for the best model is also interesting. The model got better at predicting when the home team would win (bottom row) -- in fact, it was correct 79.3% of the time for home wins. However, it could only predict 49.4% of losses correctly (top row).
+
+	</div>
+</div>
+
+<div class="description-section">
+		<div class="section-title">Oppurtunities for Future Improvements</div>
+		<div class="section-detail">
+			I have 2 main improvements in mind for making this model better. The first is through feature engineering. There were several features that I couldn&apos;t make in time for this project. I was working on calculating a feature to measure whether or not a team had a back to back, but, at the eleventh hour for this project, it was still not working and I had to move on. I was really close, and I was looking to add: home team playing back to back at home, home team playing back to back and last night away, away team playing back to back and last night away, and away team playing back to back and last night home. I&apos;ll explain more about this in my extension. Additionally, I&apos;d like to find some data tracking player injuries and use that in the model. 
+			<br>
+
+			<br>
+			The second improvement would be to implement the ensemble voting method. This method takes several classifiers as inputs, runs all of them, and creates a prediction based off the most number of votes for an event. For example, if the DecisionTreeClassifier and LogisticRegression models both predicted a certain game would be won by the home team but the AdaBoostClassifier predicted they would lose, the ensemble model would predict a win. Each model casts a vote, and the ensemble method tallies the votes and creates a prediction based off the combined results of several models. See more about the power of this method in the extension section.
+
+	</div>
+</div>
+
+<div class="description-section">
+		<div class="section-title">Extension</div>
+		<div class="section-detail">
+			For the extension to this project, I wanted to connect this back to something visual at first. I realized the core of this idea was extending my work to something that more people could understand. So, I decided to compile a list of reading and videos that have a direct connection to my project. I ran into some of these as I worked on the project, and I found others online afterwards. 			
+			<br>
+
+			<br>
+			Here&apos;s two articles that look into the NBA-home-team-phenomenon. They both look into the role of fans as a driving force behind the trend.
+			<a href="http://bleacherreport.com/articles/1520496-how-important-is-home-court-advantage-in-the-nba 
+">http://bleacherreport.com/articles/1520496-how-important-is-home-court-advantage-in-the-nba </a>
+			<br>
+			<a href="https://www.economist.com/blogs/gametheory/2015/06/home-advantage-basketball ">https://www.economist.com/blogs/gametheory/2015/06/home-advantage-basketball </a>
+			<br>
+
+			<br>
+			Since home_team_assists_per_game was a significant feature in the final model, here&apos;s a clip from the 2017 season where Rajon Rondo dished out 25 assists at home to help his team win (the NBA record is 30).
+			<a href="https://www.youtube.com/watch?v=a9Q7wo4TZMI ">https://www.youtube.com/watch?v=a9Q7wo4TZMI </a>
+			<br>
+
+			<br>
+			I wanted to include back to back games in this model. This article outlines the trend: 
+			<a href="https://www.numberfire.com/nba/news/11922/are-nba-teams-playing-back-to-back-nights-at-a-disadvantage ">https://www.numberfire.com/nba/news/11922/are-nba-teams-playing-back-to-back-nights-at-a-disadvantage </a>
+			<br>
+			The NBA was angry that star players would sit out for rest during prime time games, so they modified the schedule more recently, reducing the number of back to back games. 
+			<a href="	https://www.cbssports.com/nba/news/early-impressions-on-nba-schedule-less-back-to-backs-more-warriors-and-lakers/ ">https://www.cbssports.com/nba/news/early-impressions-on-nba-schedule-less-back-to-backs-more-warriors-and-lakers/ </a>
+			<br>
+
+			<br>
+			One of the most famous kaggle competitions was posed by Netflix. This wikipedia report outlines how the winning team was able to beat everyone else by 10% by using the ensemble method. They won $1,000,000 for that solution.
+			<a href="https://en.wikipedia.org/wiki/Netflix_Prize">https://en.wikipedia.org/wiki/Netflix_Prize</a>
+
+	</div>
+</div>
+
+</body>
+</html>

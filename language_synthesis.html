@@ -1,0 +1,138 @@
+<html>
+<head>
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+	<link rel="stylesheet" href="styles/styles.css">
+	<title>Programming 4 - Language Synthesis</title>
+</head>
+
+<body>
+
+	<a href="index.html"><img id="home" src="img/home.png" alt="Go back to the homepage"></svg></a>
+
+	<div id="top">
+	<span id="title">Language Synthesis</span>
+	<div id="intro">Project to emulate typing style of humans</div>
+	</div>
+    <div class="description-section">
+		<div class="section-title">Introduction</div>
+		<div class="section-detail">
+                Ever since deep learning became feasible with modern hardware, natural language processing has been a central focus. Voice recognizers such as Siri and Google Assistant have to not only decipher what a person says but also determine what the person wants based on the words they use. Modern machine-learning-based translation models similarly require an intricate understanding of context and of meaning across the span of many words or even sentences. These tasks require networks that can retain information for long periods of time, called recurrent neural networks.
+                We explored how these recurrent neural networks could be used for language synthesis at a personalized level. Our ultimate goal with this project was to create a model that, based on previous messages, could imitate somebody’s style for emails, text messages, or any other form of writing.
+        </div>
+            </div>
+	<div class="description-section">
+		<div class="section-title">Data Source</div>
+		<div class="section-detail">
+			Because our goal was to train a model that can imitate someone’s writing style, we needed a lot of examples of past writing for the model to learn from. For this, we extracted all of the messages from our most used forms of communication, email and text messaging. Mac computers conveniently store all iMessage and text messages in a local SQL database. We were able to access this database and download our entire message history. Gmail offers a similar feature for downloading an archive of all emails stored in an account.
+	iMessage data was then formatted into dictionary entries of incoming and outgoing messages, with the original intent to set it up in a structure convenient for training on loss. From that format, we could easily save incoming and outgoing messages to their own documents for our model implementations.
+	For both data sources, before we were able to generate new examples, we had to appropriately organize the data to feed into our models.
+		</div>
+	</div>
+
+	<div class="description-section">
+		<div class="section-title">Methods</div>
+		<div class="section-detail">
+                To start, we used an existing language synthesis architecture that works on a character-by-character basis. This model is fed a large body of existing text, and it learns the probability that a character will come next, given the 40 previous ones. In this way, it can learn the relationships between letters, punctuation, even emojis, to generate correct words and sometimes sentences.
+                The highest layer of the network represents the characters in high-dimensional space (the embedding layer). Those embeddings are then fed through two LSTM (Long Short Term Memory) layers, which allow the network to learn which bits of information contained in a sequence are important to remember. For example, remembering that the word ‘the’ appeared might be important grammatically, but it carries very little semantic meaning. The word ‘summer’ however, would likely reflect the theme of a sentence and would be remembered during the entire encoding process.
+                The attention layer then takes information from both LSTM layers and the original embedding layer. This allows the model to make its final predictions based not just on recently-inputted characters but also on the information stored about previous characters, which is stored in the LSTM cells. The network ultimately returns the probabilities for each of up to 465 different characters.
+
+            Additionally, the network takes in a temperature value, which makes the network more or less confident in its predictions. A lower temperature value will produce more conservative (but also more bland and repetitive) results, whereas texts generated with a higher temperature will be more complicated, but will also contain more spelling and grammatical errors. We found that the best temperature was between .7 and .9, which made the network take some risks while for the most part maintaining good spelling and structure.
+            <br><br>
+
+            <img src="https://github.com/minimaxir/textgenrnn/blob/master/docs/default_model.png?raw=true">
+            <br><br>
+            Out character model is based on the works of Max Woolf (<a href="https://github.com/minimaxir/textgenrnn">https://github.com/minimaxir/textgenrnn</a>) and Andrej Karpathy (<a href="https://github.com/karpathy/char-rnn">https://github.com/karpathy/char-rnn</a>)
+
+	Hoping to improve the consistency and coherence of generated messages, we decided to begin generating a whole word at a time, rather than single characters. We discovered a technique that is commonly used in machine translation problems, but that can be used for any type of data with varying input and output sizes, called sequence to sequence (seq2seq).
+
+	A seq2seq model has three main parts, an encoder, an intermediate thought vector, and a decoder. The encoder takes a single part of the sequence at a time (in our case a single word) to ultimately generate a “thought vector,” which is a representation of all of the words that were fed in. The model that we used implemented LSTM cells, which as mentioned earlier allow it to retain only the most important information over time
+	Once the thought vector is generated, it is passed on to a decoder, which is essentially the opposite of the encoder. It generates a single word at a time and then feeds the previous output in as input (See figure). In this way, it can start with a broad idea and work out the specifics as it generates the new sequence.
+    <br><br>
+
+            <img src="http://suriyadeepan.github.io/img/seq2seq/seq2seq2.png">
+            <br><br>
+            Because this model works on a word by word basis, it does not need to learn how to spell and consequently needs less time to be able to reproduce the broader structure of emails or text messages. It is also better at creating grammatically correct sentences, because, again, it is working with larger building blocks: words.
+
+We trained our sequence to sequence model using the official tensorflow neural machine translation examples found at https://github.com/tensorflow/nmt
+        </div>
+    </div>
+    <div class="description-section">
+            <div class="section-title">Results</div>
+            <div class="section-detail">
+
+                    <br>Character Model
+                    <br>Emails:
+                    <br>“Hi Mr. -----,
+<br>
+                    <br>Would you have been stupid, but I will do
+                    <br>> here in trying I was able to find the reach or
+                    <br>> who assone on the project. Every time )”
+<br>
+                    <br>“Hi Mr. --------,
+<br>
+                    <br>I attached messes that you started but we have working with the
+                    <br>> new soor of controdiction?
+                    <br>>
+                    <br>> Let me know what you are in can. You could like tellnot <br>covered to Monday.”
+<br>
+                    <br>Text Messages:
+                    <br>    “Our FaceTimed deal yet
+                    <br>>Oh thanks”
+<br>
+                    <br>“Hows mot
+                    <br>>I want more small”
+<br>
+                    <br>“Idk I'm collin I’m not sure Ethan. Only see what foret!!! to <br>see how thats heaved it
+                    <br>>Okay I have to talk right lol”
+<br>
+                    <br>“Ok. Looking at their hall
+                    <br>>Oh Wash him”
+<br>
+                    <br>“Ok thanks for going
+                    <br>>Thank you bread”
+
+
+<br><br>
+                    In all of the emails that were fed through our model, few shared the exact same words, but almost all followed a basic structure. A line for a greeting, another line for padding, and another line to start the text. This style of an email was easy for the network to capture because of the frequency and positioning of return characters in training emails. However, coherent language processing is another question. Both networks could learn spelling easily, since the majority of words were spelled correctly, but filling in the gaps between structure and spelling was difficult for this model.
+                        With text messages, the short and informal style was easily captured, yet spelling was more representative of the training data. Many people type text messages quickly and misspell many words, and our model captured that well. Additionally, since text messages are shorter, the problems of big picture meaning are minimized. More of the texts are coherent, such as “Thank you bread,” although it doesn’t make sense to people, it works as a reply. If the model were fed a longer stretch of text, it would likely fail to provide a reasonable and coherent response, since it has not learned overall meanings.
+
+                    Word Model
+                    Incoming:
+                    “Hello
+                    Just a reminder that after chapel tonight we are expected to be at the blands house for dessert”
+                    Generated:
+                    “Hi -----,
+                    You should be all set now”
+
+
+                    Incoming:
+                    “Hey Peter
+                    How can I go on the computer?
+                    Thanks”
+                    Generated:
+                    “Not yet We leave on May 26th and are there until June 9th
+                    Love
+                    Peter”
+
+                    Incoming:
+                    “Hey Peter
+                    Do you think that you would be able to submit the documents to me by tonight? I need them now.
+                    Best”
+                    Generated:
+                    “Meant to send this to everybody
+                    Something else that we should consider
+                    It’s going to happen on August 21st”
+
+                        In the vein of the original goal of the project, for this method we began using our own contrived examples to see what the network would return. Due to some SQL and mac problems, the text message data was not able to feed through this network, so we could only train on email data. Similarly to the character model, it seems to do a decent job of producing structure. One improvement that we did see over the character model was in sentence completion; more sentences had proper subjects and predicates. However, we again saw that it was not able to maintain a coherent thought for the entirety of its reponses.
+                    </div>
+        </div>
+        <div class="description-section">
+                <div class="section-title">Conclusion and Future Work</div>
+                <div class="section-detail">
+                        Although neither model came close to synthesising text at a human level, both were impressively able to capture the structure and language of two very different styles of writing - texts and emails. There are even slight hints of continuity in many of the generated messages, where there is an obvious theme to the message, but the model just falls short of coherent thought.
+
+                        More data points and more developed models could help, in theory, to make the computer understand the larger meaning of sentences. Humans can do it, so theoretically we can program computers to do it too, and that should not be a far fetched goal given how current approaches are able to come close. Services like gmail have even already begun implementing machine-learning based autoreply features, and the consistency and coherence of synthesised text will only continue to improve.
+                        </div>
+            </div>
+</body>
+</html>

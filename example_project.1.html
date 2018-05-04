@@ -1,0 +1,42 @@
+<html>
+<head>
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+	<link rel="stylesheet" href="styles/styles.css">
+	<title>Programming 4 - Hockey Predictor</title>
+</head>
+
+<body>
+
+	<a href="index.html"><img id="home" src="img/home.png" alt="Go back to the homepage"></svg></a>
+
+	<div id="top">
+	<span id="title">Hockey Predictor</span>
+	<div id="intro">Hockey Predictor takes the halftime commentary of NHL Hockey games and predicts the winner. It has been correct for 83% of the games in the 2018 season.</div>
+	</div>
+
+	<div class="description-section">
+		<div class="section-title">Data Source</div>
+		<div class="section-detail">
+			We found our training data on the NHL website, where it is publicly available. We used halftime commentary from each season 2004-2017. The halftime commentary from several games was cut short either due to breaking news or technical error, so these commentaries were omitted. Our training set consists of 5,600 commentaries.
+		</div>
+	</div>
+
+	<div class="description-section">
+		<div class="section-title">Data Cleaning</div>
+		<img class="project-img" style="float: right; width: 400px" src="https://placeimg.com/560/320/any">
+		<div class="section-detail">
+			We cleaned our data by removing advertisements and words unrecognized by the NLTK dictionary, except for proper nouns. We replaced proper nouns with PLAYER for any player name and team names with TEAM1, TEAM2, or TEAM_OTHER to align the teams being described with the teams competing or a team being described that is not currently competing.
+			<br>
+			We detected technical glitches by setting a minimum commentary of 500 words. We omitted any commentary that did not contain 500 words.
+		</div>
+	</div>
+
+	<div class="description-section">
+		<div class="section-title">Special Thanks</div>
+		<div class="section-detail">
+			We want to extend gratitude to Diana Cabrera from the NHL for clarifying the structure of the commentaries on their website as well as Tanisha Mitchell for helping us decide how to automate the data testing process.
+		</div>
+	</div>
+
+</body>
+</html>

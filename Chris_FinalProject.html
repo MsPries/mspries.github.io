@@ -10,8 +10,8 @@
          .vspace {
      margin-bottom: 1mm;
   }
-        
-    
+
+
 </style>
 </head>
 
@@ -25,10 +25,10 @@
 		<div id="intro">This project aims to build off of an existing AI image classification structure that can screen for diabetic retinopathy using non-professional photographs, paving the way for streamlined treatment processes for the leading cause of blindness worldwide (<a href="https://github.com/llSourcell/AI_in_Medicine_Clinical_Imaging_Classification">Link to source code repository)</a>. Using the same convolutional neural network methods as well as similar image-processing processes, I attempted to expand this machine learning application to the identification of cancerous CT scans. Despite still requiring medical grade photographing tools, this program, if implemented correctly, could ideally cut down on diagnosis time effectively enough to be relevant in a clinical setting.</div>
 	</div>
 
-	
+
 	<div class="description-section">
 		<div class="section-title">Source Code Architecture</div>
-		<img class="project-img" style="float: right; width: 400px;" src="cnn_two_classes_tensorboard.jpg">
+		<img class="project-img" style="float: right; width: 400px;" src="img/chris-final/cnn_two_classes_tensorboard.jpg">
 		<div class="section-detail">
 			The code linked in the description uses a Convolutional Neural Network as well as several pre-processing steps (cropping, resizing, rotating, and converting into NumPy arrays) to feed images of eyes into a Keras model, with Tensorflow structures in the backend. It uses 3 convolutional layers (each with depth 32), after which "A Max Pooling layer is applied after all three convolutional layers with size (2,2). After pooling, the data is fed through a single dense layer of size 128, and finally to the output layer, consisting of 2 softmax nodes."
 
@@ -37,38 +37,38 @@
 			 <p class="vspace">
    EyeNet Code Metrics:
 </p>
-           
+
             <br>
-            
-      
+
+
 
             <p class="tab">Accuracy (Training): 82%</p>
 
             <p class="tab">Accuracy (Testing): 80%</p>
 
             <p class="tab">Precision: 88%</p>
-          
+
 
 		</div>
 	</div>
 
 	<div class="description-section">
 		<div class="section-title">Source Data / Roadblocks</div>
-		<img class="project-img" style="float: right; width: 200px; height:200px;" src="BreastCancer38.jpg"> 
-		 <img class="project-img" style="float: right; width: 200px; height:300px;" src="CT-screen.jpg"> 
+		<img class="project-img" style="float: right; width: 200px; height:200px;" src="img/chris-final/BreastCancer38.jpg">
+		 <img class="project-img" style="float: right; width: 200px; height:300px;" src="img/chris-final/CT-screen.jpg">
 		<div>
-		<img class="project-img" style="float: middle; width: 300px; height:200px;" src="CancerCell44.jpg">
-		
+		<img class="project-img" style="float: middle; width: 300px; height:200px;" src="img/chris-final/CancerCell44.jpg">
+
 		<div class="section-detail">
 			<p class="vspace">
-	
+
 			 <br>
 			While EyeNet utilizied downsampled images of eyes into 256 by 256 squares, the data I attempted to use would be medical scan files (in the .svs format) which were 10s of Mb even in compressed form, which took roughly a minute to download per slide. While evidence of Diabetic Retinopathy in eye pictures was preserved for the most part even after this downsampling, I was worried that the details of cancer scan files would need to be preserved in close to their entirety. Combined with the inability to download identical tissue scans and cancer types in large numbers, it seemed almost all training data would have to be hand-selected.
             <br>
             <p class="vspace">
 
-            	<img class="project-img" style="float: right; width: 700px; height:200px;" src="TerminalError.jpg">
-		<img class="project-img" style="float: middle; width: 350px; height:100px;" src="TCGACode.jpg">
+            	<img class="project-img" style="float: right; width: 700px; height:200px;" src="img/chris-final/TerminalError.jpg">
+		<img class="project-img" style="float: middle; width: 350px; height:100px;" src="img/chris-final/TCGACode.jpg">
 
 		  <br>
             <p class="vspace">
@@ -76,20 +76,20 @@
             <br>
             <p class="vspace">
             Image (left to right): Breast Cancer cell, Lung Carcinoma cell (1), Lung Carcinoma (2) Extraction code lines, Error in image extraction.
-			
+
 		</div>
 	</div>
-    
-   
-     
+
+
+
    <br>
    <br>
    <br>
 
-     
+
 	<div class="description-section">
 		<div class="section-title">Conclusion</div>
-        <img class="project-img" style="float: right; width: 400px;" src="tech_stack_banner.jpg">
+        <img class="project-img" style="float: right; width: 400px;" src="img/chris-final/tech_stack_banner.jpg">
 		<div class="section-detail">
 			While the EyeNet foundation was certainly helpful in determining the best ways to classify medical images for clinical implementation, it wasn't as easy as I had expected to access large swaths of cancerous cell slides and access them (along with their annotations) programmatically. The beginnings of that work are on a Github Repository <a href="https://github.com/cpartridge18/CT-Scan-Identifier"> link)</a>  . Next steps would be to test feasibility in much smaller training data sets on possibly a cropped section of the breast or lung tissue slides, and in general scaling the scope of the project down before tackling larger issues such as the logistics of sequestering and organizing large batches of training data with high specificity toward cancer diagnosis.
 		</div>

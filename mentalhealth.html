@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Rainbow Bootstrap 4.0 Theme by templatemo</title>
+<!--
+Rainbow Theme
+http://www.templatemo.com/tm-485-rainbow
+-->
+    <!-- load stylesheets -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">  <!-- Google web font "Open Sans" -->
+    <link rel="stylesheet" href="styles/font-awesome-4.5.0/css/font-awesome.min.css">                <!-- Font Awesome -->
+    <link rel="stylesheet" href="styles/bootstrap.min.css">                                      <!-- Bootstrap style -->
+    <link rel="stylesheet" href="styles/templatemo-style.css">                                   <!-- Templatemo style -->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+          <![endif]-->
+</head>
+
+<body class="tm-bg-img-content">
+
+    <div class="tm-bg-img-header">
+        <div class="container-fluid">
+            
+            <div id="top" class="tm-header-container">
+                
+                <!-- 1. Site Header -->
+                <div class="row tm-site-header">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-xs-center">
+
+                        <h1 class="tm-site-title">Using BRFSS Data to Predict Depression</h1>
+                        <p class="tm-site-description">by Jessica Wang</p>
+                    
+                    </div>
+                </div>
+
+            
+            </div> <!-- .tm-header-container -->
+            
+            <!-- 3. About -->
+            <div class="row" id="tm-section-1">
+                
+                <div class="container">
+                    <section class="tm-2-col-img-text">
+                    
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5 col-xl-5 tm-2-col-img">                                
+                           
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7 col-xl-7 tm-2-col-text">
+                            <h2 class="tm-2-col-text-title">Introduction:</h2>
+                            <p class="tm-2-col-text-description">
+                                According to the National Alliance on Mental Illness, approximately 1 in 5 adults experiences a mental illness in a given year. Of those adults, approximately 50% are not receiving treatment. Why is it that people don’t ask for help, even if they are at risk for depression? I have trained a neural network on health survey questions to classify whether a person has been diagnosed with depression or not. This allows me to create a tool that asks simple survey questions and, based on previous health data, gives the likelihood of being diagnosed with depression.
+                            </p>
+                        </div>
+                        
+                    </section>
+
+                    <section class="tm-2-col-img-text" id="tm-section-2">
+                    
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7 col-xl-7 tm-2-col-text">
+                            <h2 class="tm-2-col-text-title">Data cleaning: </h2>
+                            <p class="tm-2-col-text-description">
+                                I downloaded data as a text file from CDC’s Behavioral Risk Factor Surveillance System (BRFSS), a health-related telephone survey that collects data about U.S. residents regarding their health-related risks. The database consists of 60346 data entries, each representing one person’s answers to 2033 questions.
+
+                            </p>
+                             <p class="tm-2-col-text-description">
+                               For my output data, I took the answers to the question of “Have you ever been told that you have a depressive disorder, including depression, major depression, dysthymia, or minor depression? The person was given the option of four responses: yes, no, don’t know/not sure, and refused. In the BRFSS data, a digit represents each response, respectively: 1, 2, 7, and 9. 
+
+                            </p>
+                             <p class="tm-2-col-text-description">
+                               In my process of cleaning the data, I had to eliminate several of the data entry points that included non-digit text or periods, both of which were not correlated to any meaningful data in the BRFFS code book found here: https://www.cdc.gov/brfss/annual_data/2016/pdf/codebook16_llcp.pdf. 
+                            </p>
+                        </div>
+                        
+                    </section>
+
+                    <section class="tm-2-col-img-text">
+                    
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5 col-xl-5 tm-2-col-img">                                
+                         
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7 col-xl-7 tm-2-col-text">
+                            <h2 class="tm-2-col-text-title">Network selection:</h2>
+                            <p class="tm-2-col-text-description">
+                                I selected a simple feedforward multilayer perceptron (MLP) neural network using tensorflow that was originally designed for Iris data, a database provided by sklearn. 
+                            </p>
+                             <p class="tm-2-col-text-description">
+                                I also looked into a neural network that implements pruning, a technique that removes sections of the tree that contribute little to the classification of data. Pruning would be particularly useful in my program because my dataset has of 2033 questions, and having each person fill out a 2033 question long survey isn’t practical. Rather, it would be ideal to reduce the amount of questions to only the neurons that have weight on the synapses. However, because I was unable to find a pruning neural network that was compatible with my data, I couldn’t implement pruning in my project.
+
+                            </p>
+                        </div>
+                        
+                    </section>
+
+                    <section class="tm-2-col-img-text" id="tm-section-2">
+                    
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7 col-xl-7 tm-2-col-text">
+                            <h2 class="tm-2-col-text-title">Application extension:</h2>
+                            <p class="tm-2-col-text-description">
+                               With the assistance of Charlotte Moremon, Rufus Taylor, and Kiana, I developed an application that asks a set of questions. The answers to the questions are run through the neural network which then classifies the data as belonging to someone who is likely to be depressed or not. Ideally, the neural network would produce a percentage that indicates probability of being depressed. Additionally, the application would then provide the information of local health care providers.
+                            </p>
+                        </div>
+
+                        <div class="image fit flush">
+                            <a href="img/mentalhealth/image1.jpg"><img src="img/mentalhealth/image1.jpg" alt="" /></a>
+                        </div>
+                        
+                    </section>
+
+                     <section class="tm-2-col-img-text" id="tm-section-2">
+                    
+                        <div class="image fit flush">
+                            <a href="img/mentalhealth/image2.jpg"><img src="img/mentalhealth/image2.jpg" alt="" /></a>
+                        </div>
+
+                        <div class="image fit flush">
+                            <a href="img/mentalhealth/image3.jpg"><img src="img/mentalhealth/image3.jpg" alt="" /></a>
+                        </div>
+                        
+                    </section>
+
+                     <section class="tm-2-col-img-text" id="tm-section-2">
+                        <div class="image fit flush">
+                            <a href="img/mentalhealth/image4.jpg"><img src="img/mentalhealth/image4.jpg" alt="" /></a>
+                        </div>
+                        <div class="image fit flush">
+                            <a href="img/mentalhealth/image5.jpg"><img src="img/mentalhealth/image5.jpg" alt="" /></a>
+                        </div>
+
+                        
+                    </section>
+
+                     <section class="tm-2-col-img-text" id="tm-section-2">
+                        <div class="image fit flush">
+                            <a href="img/mentalhealth/image6.jpg"><img src="img/mentalhealth/image6.jpg" alt="" /></a>
+                        </div>
+                        
+                    </section>
+                </div>                
+
+            </div> <!-- About section, tm-section-1 & 2 -->
+
+        </div> <!-- container-fluid -->               
+    </div> <!-- tm-bg-img-header -->
+        
+    <div class="container-fluid">
+        
+       
+  
+    
+        
+    <!-- load JS files -->
+    <script src="js/jquery-1.11.3.min.js"></script>             <!-- jQuery (https://jquery.com/download/) -->
+    <script src="js/jquery.singlePageNav.min.js"></script>      <!-- Single Page Nav (https://github.com/ChrisWojcik/single-page-nav) -->      
+
+</body>
+</html>

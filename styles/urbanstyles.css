@@ -1,0 +1,137 @@
+/*********************************************
+NOTES FOR EDITING:
+
+This stylesheet uses CSS - there are lots of CSS tutorials online.
+
+If you change existing classes to make the whole site look better, awesome!
+Just make sure you're doing it on purpose. There are comments to title each section.
+
+If you want to make your own page look different, either define styles for specific
+ids or define new classes. You can do that in this file or in another CSS file that
+you include in the head of your HTML file. You will need to modify your HTML page
+either way to utilize the new classes you define.
+
+See Ms. Pries if you have any questions!
+*********************************************/
+
+/* General body styling */
+body {
+	background-color: #D0DDDB;
+	color: #403D39;
+	text-align: center;
+	font-family: 'Roboto Slab', sans-serif;
+	margin: 0px;
+}
+
+/* Home button styling */
+#home {
+	width: 30px;
+	padding: 5px 0px;
+	position: absolute;
+	left: 5%;
+	top: 5%;
+}
+#home:hover {
+	border-bottom: 1px solid #BAD1CD;
+}
+
+/* Header styling */
+#top {
+	padding: 160px 60px;
+	background-color: #1C1649;
+	color: #BAD1CD;
+	border-bottom: 2px solid #DEE0E5;
+}
+a {
+	color: #BAD1CD;
+}
+a:hover{
+	color: #DEE0E5;
+}
+
+/* Project gallery styling for title page */
+.projects {
+	clear: both;
+	padding: 0px;
+	margin: 10px;
+}
+.col {
+	display: block;
+	float:left;
+	margin: 1% 0 1% 1.6%;
+}
+.group:before,
+.group:after { content:""; display:table; }
+.group:after { clear:both;}
+.group { zoom:1; /* For IE 6/7 */ }
+.span3 {
+	width: 100%;
+}
+.span2 {
+	width: 65.13%;
+}
+.span1 {
+	width: 31.26%;
+}
+
+/* Project boxes on the title page */
+.project{
+	transition: background-color 0.3s ease;
+	background-color: #1C1649;
+	color: #BAD1CD;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	height: 350px;
+	padding: 8px;
+}
+.project:hover{
+	background-color: #2C2560;
+}
+.project-title{
+	margin-top: 5px;
+	margin-bottom: 4px;
+	font-size: 1.25em;
+}
+.project-authors{
+	margin-bottom: 1px;
+}
+.project-description{
+	padding: 4px;
+}
+.project-img {
+	width: 96%;
+	height: auto;
+	padding: 2%;
+}
+
+/* Intro styling for project pages */
+#title{
+	font-size: 2.9em;
+	display: block;
+	width: 100%;
+}
+#intro {
+	margin: 3% 8%;
+	font-size: 1.7em;
+}
+
+/* Section styling for the project pages */
+.section-title {
+	font-size: 1.8em;
+}
+.section-detail {
+	font-size: 1.2em;
+}
+.description-section {
+	display: block;
+	text-align: left;
+	margin: 20px 30px;
+	clear: both;
+}
+
+/*  Changes to make when screen size is smaller than 680 pixels wide */
+@media only screen and (max-width: 680px) {
+	.col {  margin: 1% 0 1% 0%; }
+	.span1, .span2, .span3 { width: 100%; }
+	#top { padding: 40px 60px; }
+	.project { height: 650px; }
+}

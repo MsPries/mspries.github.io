@@ -1,0 +1,56 @@
+<html>
+<head>
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+	<link rel="stylesheet" href="styles/urbanstyles.css">
+	<title>Programming 4 - Urban Dictionary AI</title>
+</head>
+
+<body>
+
+	<a href="index.html"><img id="home" src="img/home.png" alt="Go back to the homepage"></svg></a>
+
+	<div id="top">
+	<span id="title">Urban Dictionary AI</span>
+	<div id="intro">Urban Dictionary AI is an recurrent neural network that can do two things. First, given a term, it can generate an Urban Dictionary style definition thats wacky, fun, and sometimes even contextually sensible! Second, it can generate its own Urban Dictionary style terms, and then generate its own definitons for these terms.</div>
+	</div>
+
+	<div class="description-section">
+		<div class="section-title">Data</div>
+		<div class="section-detail">
+			On Kaggle, we discovered a dataset containing 2.6 million Urban Dictionary entries in csv format. Among other things, these entries all contained a term and its corresponding definition. For the sake of time, we created a python program that sifted through the dataset and cut out "bad" entries, reducing the size of the dataset signifcantly. We considered bad entries to be any entries with profanity, blank definitions, terms involving slashes ("Yeet/Yote"), or definitions greater than 150 charecters in length. We decided on these parameters through a great deal of trial and error. For example, we initally did not filter out profanity, but quickly realized how terrible of an idea that was when our AI started spewing horribly profane and inapropriate definitons. In order to filter out swears, we downloaded a list of common swears, and then added to it when we encountered obvious gaps in the list. We also did not initially filter entries based on the definition length, but we found that this filter was needed in order to ensure that the definitions produced by the neural network were short enough for the RNN to effectively keep track of their contextual meaning. After all of this filtering, we then randomly removed entries in order to cut our data down to the manageable but effective size of 416,000 entries.
+		</div>
+	</div>
+
+	<div class="description-section">
+		<div class="section-title">Network</div>
+		<div class="section-detail">
+			For the network, we used a popular <a href="https://github.com/SCrawshaw18/char-rnn">LSTM network</a> known as char-rnn. LSTM stand for long short-term memory, and it's a fundamental component of many recurrent neural networks, specifically those that generate lengthy text. LSTM networks solves the vanishing gradient problem where contextual information is lost exponentially over the course of output generation. For text generation, LSTM's do a great job remembering the important aspects of the text they generated earlier in the sentence, allowing them to piece together grammatically and contextually coherent sentences. This becomes vastly important when you are dealing with things like quotes, for the network has to remember to close the quotation. A normal RNN would have an increasingly difficult time remembering to close a quote as the quote lengthens, leading to many missed end quotes. This is just one example of the grammatical coherency afforded by LSTM blocks in a recurrent nerual network.
+		</div>
+	</div>
+		<div class="description-section">
+		<div class="section-title">Training</div>
+		<div class="section-detail">
+			We trained the network on the high speed programming computer for a little over 12 hours. After 12 hours, the loss unexpetedly started getting worse, triggering an automatic abort by the network. We trained it on the 416,000 entries, which came out to about 32 mb of data. Through preliminary experimentation and suggestions provided by the creators of char-rnn, we decided upon a few key training parameters. We set the rnn size to 600, the number of layers to 2, and the dropout to 0.25. The network then divided our data into 12,361 training batches and 651 validation batches. All this led to a model with approximately 5 million parameters. Over the course of 12 hours, the model completed 270,000 total passes over the training data, and finished with a training loss of 1.257.
+		</div>
+	</div>
+		<div class="description-section">
+		<div class="section-title">Results</div>
+		<div class="section-detail">
+		<img src="img/urbanresults.png" alt="Results" width="100%">
+		</div>
+	</div>
+		<div class="description-section">
+		<div class="section-title">Extension</div>
+		<div class="section-detail">
+			For our extension, we created a python script that simplifys the network running process and creates an Urban Dictionary style html page upon requested. To use this extension, one simply calls our python script in the command line. They then specify the word they would like defined and the tempeture they would like to use. A high temperature creates wacky but often incoherent responses. A low temperature leads to more boring but legible results. If the person likes the generated defintion, they can opt to have the program create an html file containing an Urban Dictionary style post with the term and its defintion. This html file is saved locally for viewing in one's web browser. For more information, please see our <a href="https://github.com/SCrawshaw18/char-rnn">project repository</a>.
+		</div>
+	</div>
+	<div class="description-section">
+		<div class="section-title">Special Thanks</div>
+		<div class="section-detail">
+			We want to extend gratitude to Hack Exeter for providing a creative outlet where we were able to devise and craft this project. We would also like to thank them for the second place prize! Additonally, we'd like to thank Ms. Pries and Mr. Hales for bringing us to Hack Exeter and helping us throughout the coding process.
+		</div>
+	</div>
+
+</body>
+</html>

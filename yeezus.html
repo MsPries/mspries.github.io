@@ -1,0 +1,141 @@
+<html>
+<head>
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+	<link rel="stylesheet" href="styles/styles.css">
+	<title>Programming 4 - Generating Kanye West's New Album</title>
+</head>
+
+<body>
+	<!-- Home button -->
+	<a href="index.html"><img id="home" src="img/home.png" alt="Go back to the homepage"></svg></a>
+
+	<!-- Your project title and intro go here. Choose a catchy and descriptive title
+	and write a one or two sentence intro about what makes your project cool. -->
+	<div id="top">
+		<span id="title">Using a LSTM Recurrent Neural Network to Generate Kanye Lyrics</span>
+		<div id="intro">Kanye West is one of the world's best-selling rappers. Critics and fans alike
+						praise his lyrics for their advanced word-play, unique metaphors, and strong flow.
+						Kanye has new projects releasing in June, but our group of Yeezus worshippers can't 
+						wait until then. In a daring attempt to get a sneak-peak of his new album, we fed his entire discography into a LSTM Recurrent Neural Network to produce potential Kanye lyrics.
+
+
+		</div>
+
+	</div>
+
+	<!-- Use the these sections as templates for reporting your process and results. Use
+	as many sections as you need to concisely describe your project - I encourage you to
+	use the project rubric as a guide for sections. Feel free to use images or link to your
+	GitHub repo, research papers you read, etc. Keep the class attributes on the divs to
+	keep your styling consistent (or change them, if you'd like!). -->
+	<div class="description-section">
+		<div class="section-title">Gathering Data</div>
+		<div class="section-detail">
+			 Given that we wanted to produce lyrics that mirrored Kanye's style and wide-vocabulary, we first needed to gather data -- tons of data. To do this, we collected all of his lyrics using an API from Genius, a crowd-sourced lyric library and song analysis resource, using the lyricsgenius package developed by johnwmillr on Github. The song information was downloaded and stored in a large JSON file before being cleaned. The methodology in cleaning the data was designed with the output format, a single string of all lyrics delimited, in mind. All non-alphabetic characters were removed and the words were delimited by spaces. However, apostrophes were not removed because the goal of the cleaning was to preserve entire words which would be split in the cleaning otherwise, and certain words in Kanye’s vocabulary are shortened with apostrophes, like “‘Ye” and “gettin’.” The final string was saved into a .txt file for processing.
+			 <br>
+			 <br>
+			 The end result of this process was a text file about 1.4 MB in size and 291,635 words! As always, more data is ideal, so we were very happy with the data collection.
+			 			 <br>
+
+
+
+		</div>
+	</div>
+
+	<div class="description-section">
+		<div class="section-title">An In-Depth Look at Our Training Method</div>
+		<div class="section-detail">
+			Going into this, we had a few options on how we could train the data. At first, we considered using a Hidden Markov Model, which is a common training method for sequential data. However, we found compelling research that suggested a LSTM Recurrent Neural Network would work better with our massive amount of lyrics, as its memory capabilities are able to process swiftly and works well with composing sentence structure similar to the training data. Also, our group has experience with using Feedforward Neural Networks in previous projects, so we felt as though we would have a better handle on fine-tuning the LSTM RNN for good results. 
+			<br> <br>
+			However, LSTM RNNs differ from Feedfoward Neural Networks in a few fundamental ways. A Feedforward Neural Network can produce outputs such as a bag of words where the order of training data is not taken into account at all, and therefore the output has no logical order either. LSTM RNNs are great for producing an output that reflects (or similarly constructs) the sequence of the input data. Because language is sequential and often written with different stylistic choices in sentence structure, the LSTM RNN was the perfect fit to capture Kanye's style.
+			<br> <br>
+			LSTM stands for Long Short-Term Memory. This part of the model is responsible for the model's  effectiveness in recalling previous inputs to create a “coherent” output. Essentially, LSTMs are units within the Recurrent Neural Network that add the decision-making process to determine the output's order. Each LSTM “unit” contains different layers.
+			<br> <br>
+			The “Forget Gate” Layer is essentially a sigmoid function that determines which potential outputs it shouldn’t consider (in our case, this would be one word) based on which words appeared after the next in the training data. Each potential output has an assigned value between 0 (irrelevant) and 1 (relevant). An example of this in our project would be throwing out pronouns that don’t agree with the sentence's subject because it would appear “out of context” compared to the training data.
+			<br> <br>
+			The next layer is the “Input Gate” layer, which uses a sigmoid function to decide which potential outputs it should re-evaluate the relevancy of. Then, a tanh function re-evaluates each potential output -- the tanh function is essentially the same as the sigmoidal function, but assigns values ranging from -1 to 1 for more discretion on potential outputs.
+			<br> <br>
+			Finally, the next layer updates the new values decided from the last two layers, and then does some more sigmoid and tanh multiplication which finally decides this cell's output. The next cell looks at the previous cell's output and repeats the process.
+			<br> 
+
+
+
+		</div>
+	</div>
+
+	<div class="description-section">
+		<div class="section-title">The Training Process</div>
+		<div class="section-detail">
+			We began by researching existing implementations and explanations of how exactly to feed in the text into the Recurrent Neural Network. We eventually came across <a href = "https://machinelearningmastery.com/text-generation-lstm-recurrent-neural-networks-python-keras/
+			"> this post made by Machine Learning Mastery</a> and <a href = "https://chunml.github.io/ChunML.github.io/project/Creating-Text-Generator-Using-Recurrent-Neural-Network/">Trung Tran’s Github repository</a>, where we learned that a common approach is to split the text into a list of all of its characters removed of spaces, create a dictionary of all characters, and create a list of patterns of characters that are fed in as the input. This process made sense conceptually to us: Each collection of words is essentially of characters, and in that pattern there is a specific order of characters. Thus, each character would have a probability to occur in a certain index within the pattern, and we know our model will generate probability. However, after running our model, which we will describe in the next section, we found miscellaneous characters in our generated text and overuse of the characters ‘i’ and ‘a’, which provided nonsensical words and phrases. So we tried inputting words instead by creating a vocab of words and a list of words, and we fed in the sequences as patterns of 3 words -- each word represented by its index in the vocab.
+					<br> <br>
+		</div>
+	</div>
+
+
+
+
+
+
+	<div class="description-section">
+		<div class="section-title">Our Results</div>
+		<div class="section-detail">
+		We collected our results through a pattern of text started by a seed phrase and then another word chosen as the mostly likely word to follow, and then another word after that, etc. Unfortunately, but understandably, our initial results showed repeated patterns of common words like so:
+		<br> <br>
+		“of the i i of the i i of the i i of the i i of the i i of the i i of the i i of the i i of the i i of the i i...”
+		<br> <br>
+		To reconcile this, the program was modified to make a random choice out of a top selection of words, the number of which could be modified. Adjusting this value led to some very interesting and different results. On the extreme low end, this repeated pattern could still be seen picking from the top 5:
+		<br> <br>
+		“i you you know you i i to i i you the to i the to and and i that you to in to to and you to be and to the i you the a i and a visionary i you i you i i that to and i the you i you it to you i i you the i to to you i to the you know to the you know in i i a you the you you you to you i i i you to to the the the you i i the the and and and and you the be the i you to the to you to you yeah i the it of you the and you to you to the the i i you i a you i you the the the i i a hoodie...”
+		<br> <br>
+		More sporadic and unexpected words like “visionary” and “hoodie” start to emerge. However, the same repeated pattern still remains. Cranking the number up to ten, more interesting things start to happen:
+		<br> <br>
+		“my the to my i to it it like and morisette was a sharin' i my to you i'm i that it you know m you and t me i compare in you the touchin' is the and in in like that i and a that go a the like you to you you you yeah woo to yeah yeah yeah woo woo...”
+		<br> <br>
+		The relative frequencies of words start matching what one might expect to see in regular sentences and this seems the most natural of any of the tests so far. Progressing on to picking from the top 20 choices, we get something like this:
+		<br> <br>
+		“it you with reference how that i to a if but you i'm and benz and i'm you be me my it and lil' a it was go a the with is and be joke the we you to the s**** i'm it to be in it that go very in i to value in that it was about we when the need that the s**** to you in it's was in it it be million a highlights i'm just woah in lockdown to and and the in a to monster to i'm be god...”
+		<br> <br>
+		Interestingly, this is where you can really tell that the data originated from Kanye. His bravado comes through in words like ‘benz,’ ‘milllion,’ and ‘god;’ the first swears are introduced; and some of his song titles end up filtering into the lyrics, such as “Highlights,” a song from The Life of Pablo, ‘lockdown,’ a potential product of the song “Love Lockdown” off of 808s & Heartbreak, “Monster” from My Beautiful Dark Twisted Fantasy. Additionally, the word ‘god’ appears, which is both a prominent subject in his music and reflective of another title, “I am a God” from the album Yeezus. While it is not a particularly coherent sample, it is distinct in its origin. Past this point, the direct influences are less obvious, but the coherence gets even stronger. My favorite was the sample we took at picking from the top 100 words:
+		<br> <br>
+		“your i is what of oh leave though price they go am f*** like go mcdonald homie in up two give was fast been all i'll swish from i'm are you new that can a courtesy marc rod paris they it cashmere i'm though s*** your more what say need but can your in cam if is people one s*** that's by i'm kanye honest your name you or get had do with it money for we up psychologically a million one make because over love for clothing made rather the one your s*** p*sses yeah and woman comparisons keep vega co love but composite i when classic me is s why all rap it your look he at smart a he all jobs say know gonna recorded say his you put s is off it's they night when about that all the democrats s at so my just so lifetimes at men and at from but well have me was evening one clinton i'm really them motherf***er...”
+		<br> <br>
+		This section almost seems like some sort of twitter rant that Kanye might pull off, starting with some advice to “like go [to] mcdonald homie,” proceeding into a discussion of high fashion with “Marc (Jacobs),”  “Paris,” and “cashmere.” The text then reasserts “I’m Kanye, honest,” in a very expected way, comments on money, and goes back to talking about a “love for clothing.” The simulated rapper finishes talking a bit about being an artist with words like “classic,” “rap,” and “recorded,” before launching into a political rant, mentioning “democrats” and “Clinton.” While not a perfect coherent work, I would consider this sample to be a major success, as it conveys so many of the talking points Kanye is known for and emulates the rapper and his opinions very well. You can see all of our results in full by <a href = "https://chunml.github.io/ChunML.github.io/project/Creating-Text-Generator-Using-Recurrent-Neural-Network/">clicking here </a>. Please note that as our results come from raw data of Kanye's lyrics, there is vulgar language.
+
+
+
+
+
+
+
+		</div>
+	</div>
+	<div class="description-section">
+		<div class="section-title">Sources</div>
+		<div class="section-detail">
+			https://theclevermachine.wordpress.com/tag/tanh-function/
+			<br>
+https://en.wikipedia.org/wiki/Recurrent_neural_network
+<br>
+https://machinelearningmastery.com/text-generation-lstm-recurrent-neural-networks-python-keras/
+<br>
+https://chunml.github.io/ChunML.github.io/project/Creating-Text-Generator-Using-Recurrent-Neural-Network/
+<br>
+https://machinelearningmastery.com/use-different-batch-sizes-training-predicting-python-keras/
+<br>
+http://colah.github.io/posts/2015-08-Understanding-LSTMs/
+<br>
+https://www.quora.com/In-Keras-what-is-a-dense-and-a-dropout-layer
+<br>
+http://dataaspirant.com/2017/03/07/difference-between-softmax-function-and-sigmoid-function/
+<br>
+https://en.wikipedia.org/wiki/Long_short-term_memory
+<br>
+
+
+		</div>
+	</div>
+	
+
+</body>
+</html>
